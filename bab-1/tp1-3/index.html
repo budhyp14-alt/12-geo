@@ -1,1 +1,669 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geografi 12 IPS - TP1-3</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --c-purple: #800080;
+      --c-blue: #0000FF;
+      --c-lime: #00FF00;
+      --c-yellow: #FFFF00;
+      --c-orange: #FFA500;
+      --c-red: #CC0000;
+      --c-darkgreen: #008000;
+      --bg-sky: #4A90E2;
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(180deg, #38BDF8 0%, #2563EB 50%, #1E40AF 100%);
+      background-attachment: fixed;
+      color: #1F2937;
+      padding-bottom: 70px;
+      overflow-x: hidden;
+    }
+
+    /* HEADER */
+    .header-box {
+      text-align: center;
+      padding: 30px 15px 20px;
+      color: white;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+      animation: fadeInDown 0.8s ease-out;
+    }
+    .header-box .row-1 { font-size: 1.25rem; font-weight: 900; color: #FEF08A; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .header-box .row-2 { font-size: 1.05rem; font-weight: 800; color: #FFFFFF; margin-bottom: 6px; }
+    .header-box .row-3 { font-size: 1.1rem; font-weight: 800; color: #93C5FD; margin-bottom: 4px; }
+    .header-box .row-4 { font-size: 0.95rem; font-weight: 600; color: #E0E7FF; margin-bottom: 4px; }
+    .header-box .row-5 { font-size: 1.35rem; font-weight: 900; color: #FFFFFF; letter-spacing: 1px; margin-bottom: 4px; }
+    .header-box .row-6 { font-size: 1.05rem; font-weight: 700; color: #86EFAC; }
+
+    /* MENU HORIZONTAL */
+    .nav-wrapper {
+      max-width: 950px;
+      margin: 0 auto 25px;
+      padding: 8px 15px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      perspective: 1000px;
+    }
+
+    .menu-item {
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 800;
+      font-size: 0.9rem;
+      border: 2px solid rgba(255,255,255,0.4);
+      color: white;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.25);
+      transition: box-shadow 0.3s;
+      user-select: none;
+      transform-style: preserve-3d;
+    }
+
+    /* ANIMASI PUTAR HORIZONTAL SANGAT PELAN 360 DERAJAT BOLAK-BALIK */
+    @keyframes spinHorizontalVerySlow {
+      0% { transform: rotateY(0deg); }
+      50% { transform: rotateY(360deg); }
+      100% { transform: rotateY(0deg); }
+    }
+
+    .menu-item:hover {
+      animation: spinHorizontalVerySlow 8s ease-in-out infinite;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.4);
+      z-index: 10;
+    }
+
+    .menu-item.active {
+      outline: 3px solid #FFFFFF;
+      box-shadow: 0 0 15px #FFFFFF;
+    }
+
+    .m-purple { background: var(--c-purple); }
+    .m-blue { background: var(--c-blue); }
+    .m-lime { background: var(--c-lime); color: #000; }
+    .m-yellow { background: var(--c-yellow); color: #000; }
+    .m-orange { background: var(--c-orange); color: #000; }
+    .m-red { background: var(--c-red); }
+    .m-darkgreen { background: var(--c-darkgreen); }
+
+    /* CARD CONTENT */
+    .main-container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+
+    .content-section {
+      background: #FFFFFF;
+      border-radius: 20px;
+      padding: 28px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.2);
+      margin-bottom: 25px;
+      display: none;
+      animation: zoomIn 0.4s ease-out;
+      border-top: 10px solid white;
+    }
+    .content-section.active { display: block; }
+
+    .sec-title {
+      font-size: 1.35rem;
+      font-weight: 900;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    p, li { line-height: 1.75; margin-bottom: 12px; font-size: 0.98rem; }
+    ul, ol { margin-left: 22px; margin-bottom: 15px; }
+
+    .graphic-banner {
+      border-radius: 14px;
+      padding: 20px;
+      margin: 18px 0;
+      color: white;
+      text-align: center;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.15);
+    }
+
+    .ascii-tree {
+      background: #0F172A;
+      color: #38BDF8;
+      padding: 18px;
+      border-radius: 12px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      line-height: 1.6;
+      overflow-x: auto;
+      white-space: pre;
+      margin: 15px 0;
+      border-left: 6px solid var(--c-lime);
+    }
+
+    .concept-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 16px;
+      margin: 18px 0;
+    }
+    .concept-box {
+      border-radius: 14px;
+      padding: 18px;
+      border: 2px solid transparent;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+    }
+
+    /* KUIS DAN FORM */
+    .quiz-card {
+      background: #F8FAFC;
+      border-radius: 14px;
+      padding: 22px;
+      border: 2px solid #E2E8F0;
+      margin-top: 15px;
+    }
+    .quiz-field {
+      width: 100%;
+      padding: 12px 16px;
+      border-radius: 10px;
+      border: 2px solid #3B82F6;
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .action-btn {
+      background: var(--c-red);
+      color: white;
+      border: none;
+      padding: 14px 22px;
+      border-radius: 12px;
+      font-size: 1.05rem;
+      font-weight: 800;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.2s, filter 0.2s;
+    }
+    .action-btn:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.15);
+    }
+
+    .opt-choice {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #FFFFFF;
+      border: 2px solid #CBD5E1;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin-bottom: 10px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .opt-choice:hover {
+      border-color: #2563EB;
+      background: #EFF6FF;
+    }
+    .opt-choice.chosen {
+      border-color: #F97316;
+      background: #F97316;
+      color: white;
+    }
+
+    /* TABEL REKAP */
+    .table-responsive {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 15px;
+    }
+    .recap-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.9rem;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .recap-table th {
+      background: var(--c-blue);
+      color: white;
+      padding: 10px 14px;
+      text-align: left;
+    }
+    .recap-table td {
+      padding: 10px 14px;
+      border-bottom: 1px solid #E2E8F0;
+    }
+    .recap-table tr:nth-child(even) { background: #F8FAFC; }
+
+    /* ANIMASI */
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-25px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes zoomIn {
+      from { opacity: 0; transform: scale(0.97); }
+      to { opacity: 1; transform: scale(1); }
+    }
+    @keyframes floatIcon {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-6px) rotate(4deg); }
+    }
+    .animated-icon {
+      display: inline-block;
+      animation: floatIcon 2.5s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header-box">
+    <div class="row-1">Bab 1 : Pengembangan Wilayah, Tata Ruang, dan Kebahagiaan</div>
+    <div class="row-2">TUJUAN PEMBELAJARAN (TP1-3) : Tata Ruang dan Dinamika Pembangunan Wilayah</div>
+    <div class="row-3">Mata Pelajaran : Geografi (Kelas 12 IPS)</div>
+    <div class="row-4" id="date-display">Hari, Tanggal</div>
+    <div class="row-5">SMA ADVENT BATAM</div>
+    <div class="row-6">Guru : Ir. Budhy Prasetyo</div>
+  </header>
+
+  <!-- MENU HORIZONTAL (DENGAN ANIMASI PUTAR HORIZONTAL SANGAT PELAN) -->
+  <nav class="nav-wrapper">
+    <button class="menu-item m-purple active" onclick="activateTab('tab-pemantik', this)"><span class="animated-icon">🎯</span> Pemantik</button>
+    <button class="menu-item m-blue" onclick="activateTab('tab-teori', this)"><span class="animated-icon">📚</span> Teori Dasar</button>
+    <button class="menu-item m-lime" onclick="activateTab('tab-unsur', this)"><span class="animated-icon">📐</span> Unsur Pokok</button>
+    <button class="menu-item m-yellow" onclick="activateTab('tab-jenjang', this)"><span class="animated-icon">🗺️</span> Jenjang RTRW</button>
+    <button class="menu-item m-orange" onclick="activateTab('tab-dinamika', this)"><span class="animated-icon">⚠️</span> Dinamika & Masalah</button>
+    <button class="menu-item m-darkgreen" onclick="activateTab('tab-praktik', this)"><span class="animated-icon">🔬</span> Praktik & Evaluasi</button>
+    <button class="menu-item m-red" onclick="activateTab('tab-kuis', this)"><span class="animated-icon">📝</span> Kuis & Rekap</button>
+  </nav>
+
+  <main class="main-container">
+
+    <!-- 1. PERTANYAAN PEMANTIK -->
+    <section id="tab-pemantik" class="content-section active" style="border-top-color: var(--c-purple);">
+      <h2 class="sec-title" style="color: var(--c-purple);"><span class="animated-icon">🎯</span> 1. Pertanyaan Pemantik</h2>
+      <div class="graphic-banner" style="background: linear-gradient(135deg, #7C3AED, #4F46E5);">
+        <h3 style="font-size: 1.15rem; margin-bottom: 8px;">Membuka Cakrawala Berpikir Spasial</h3>
+        <p style="margin: 0; font-size: 0.95rem;">Renungkan kondisi nyata penataan lingkungan di sekitar kita sebelum masuk ke kajian teori.</p>
+      </div>
+      <div style="background: #F5F3FF; padding: 20px; border-left: 6px solid var(--c-purple); border-radius: 12px; margin-top: 15px;">
+        <ul style="margin: 0; font-size: 1.05rem; font-weight: 600; color: #4C1D95;">
+          <li style="margin-bottom: 14px;">Mengapa daerah perumahan tidak boleh dibangun bersebelahan langsung dengan pabrik kimia berat?</li>
+          <li>Mengapa bencana banjir di perkotaan sering kali bukan disebabkan oleh faktor hujan saja, melainkan akibat kesalahan penempatan bangunan?</li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 2. TEORI DASAR TATA RUANG -->
+    <section id="tab-teori" class="content-section" style="border-top-color: var(--c-blue);">
+      <h2 class="sec-title" style="color: var(--c-blue);"><span class="animated-icon">📚</span> 2. Teori Dasar Tata Ruang</h2>
+      <p>Pemerintah mengatur permukaan bumi melalui <strong>penataan ruang</strong>. Ruang hidup manusia dibagi secara sengaja dan terencana agar tertib, aman, dan produktif.</p>
+      
+      <div class="concept-grid">
+        <div class="concept-box" style="background: #EFF6FF; border-color: #60A5FA;">
+          <h3 style="color: #1D4ED8; margin-bottom: 8px;">🌐 Ruang</h3>
+          <p style="margin: 0;">Wadah kehidupan manusia dan makhluk hidup lainnya yang meliputi daratan, lautan, serta ruang udara.</p>
+        </div>
+        <div class="concept-box" style="background: #F0FDF4; border-color: #4ADE80;">
+          <h3 style="color: #15803D; margin-bottom: 8px;">🗺️ Tata Ruang</h3>
+          <p style="margin: 0;">Wujud susunan pusat-pusat permukiman serta sistem jaringan sarana dan prasarana yang saling terhubung.</p>
+        </div>
+        <div class="concept-box" style="background: #FFFBEB; border-color: #FCD34D;">
+          <h3 style="color: #B45309; margin-bottom: 8px;">⚙️ Penataan Ruang</h3>
+          <p style="margin: 0;">Proses perencanaan tata ruang, pemanfaatan ruang, dan pengendalian pemanfaatan ruang.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. DUA UNSUR POKOK TATA RUANG -->
+    <section id="tab-unsur" class="content-section" style="border-top-color: var(--c-lime);">
+      <h2 class="sec-title" style="color: #15803D;"><span class="animated-icon">📐</span> 3. Dua Unsur Pokok Tata Ruang</h2>
+      <p>Setiap peta rencana tata ruang selalu memiliki dua unsur utama:</p>
+
+      <div class="ascii-tree">                            ┌─── STRUKTUR RUANG : Kerangka fisik (pusat kota & jalan)
+TATA RUANG WILAYAH DIBAGI ──┤
+                            └─── POLA RUANG     : Pembagian fungsi lahan (lindung & budidaya)</div>
+
+      <div style="background: #F0FDF4; border: 2px solid #86EFAC; border-radius: 12px; padding: 18px; margin-bottom: 18px;">
+        <h3 style="color: #166534; margin-bottom: 8px;">A. Struktur Ruang</h3>
+        <p>Struktur ruang adalah kerangka susunan pusat-pusat permukiman yang terhubung oleh jaringan prasarana wilayah.</p>
+        <ul>
+          <li><strong>Komponen 1 (Pusat Kegiatan):</strong> Titik konsentrasi layanan, seperti kawasan pusat bisnis, balai kota, pasar induk, dan kawasan industri.</li>
+          <li><strong>Komponen 2 (Jaringan Prasarana):</strong> Jalur penghubung antarpusat kegiatan, seperti jalan raya, jalan tol, pelabuhan, bandar udara, jaringan listrik, dan saluran pipa air minum.</li>
+          <li><strong>Contoh Konkret:</strong> Jalan arteri yang menghubungkan Pelabuhan Batu Ampar langsung menuju kawasan industri terpadu.</li>
+        </ul>
+      </div>
+
+      <div style="background: #EFF6FF; border: 2px solid #93C5FD; border-radius: 12px; padding: 18px;">
+        <h3 style="color: #1E40AF; margin-bottom: 8px;">B. Pola Ruang</h3>
+        <p>Pola ruang adalah pembagian peruntukan ruang untuk fungsi lindung dan fungsi budidaya.</p>
+        <ul>
+          <li><strong>Kawasan Lindung:</strong> Wilayah yang fungsi utamanya melindungi kelestarian lingkungan hidup dan mencegah bencana alam.
+            <br><em>Contoh:</em> Hutan lindung, kawasan tangkapan air resapan, sempadan sungai, sempadan pantai, dan hutan bakau (<em>mangrove</em>).
+          </li>
+          <li><strong>Kawasan Budidaya:</strong> Wilayah yang fungsi utamanya dimanfaatkan untuk kegiatan produksi dan tempat tinggal manusia.
+            <br><em>Contoh:</em> Kawasan permukiman, kawasan persawahan, sentra pertokoan, dan kawasan pabrik industri.
+          </li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- 4. JENJANG RTRW -->
+    <section id="tab-jenjang" class="content-section" style="border-top-color: #EAB308;">
+      <h2 class="sec-title" style="color: #A16207;"><span class="animated-icon">🗺️</span> 4. Jenjang Rencana Tata Ruang Wilayah (RTRW) di Indonesia</h2>
+      <p>Perencanaan ruang di Indonesia disusun secara berjenjang dari skala nasional hingga skala teknis lapangan:</p>
+
+      <ol style="font-weight: 600; line-height: 1.9;">
+        <li><strong style="color: #1E3A8A;">RTRW Nasional (RTRWN):</strong> Mengatur strategi tata ruang pertahanan negara, poros pelayaran antarnegara, dan kawasan lindung nasional.</li>
+        <li><strong style="color: #047857;">RTRW Provinsi (RTRWP):</strong> Mengatur keterpaduan pembangunan antar-kabupaten atau antar-kota dalam satu provinsi.</li>
+        <li><strong style="color: #C2410C;">RTRW Kabupaten/Kota (RTRW Kab/Kota):</strong> Mengatur zonasi peruntukan lahan secara rinci di tingkat kota atau kabupaten.</li>
+        <li><strong style="color: #7E22CE;">Rencana Detail Tata Ruang (RDTR):</strong> Peta skala 1:5.000 yang menjadi dasar hukum izin penerbitan mendirikan bangunan dan kesesuaian kegiatan pemanfaatan ruang (KKPR).</li>
+      </ol>
+
+      <div class="graphic-banner" style="background: linear-gradient(135deg, #F59E0B, #EA580C);">
+        <h4 style="margin: 0; font-size: 1.05rem;">Hierarki Penataan: Kebijakan di tingkat kota/kabupaten dan RDTR tidak boleh bertentangan dengan RTRW Provinsi dan RTRW Nasional.</h4>
+      </div>
+    </section>
+
+    <!-- 5. DINAMIKA & PERMASALAHAN -->
+    <section id="tab-dinamika" class="content-section" style="border-top-color: var(--c-orange);">
+      <h2 class="sec-title" style="color: #C2410C;"><span class="animated-icon">⚠️</span> 5. Dinamika dan Permasalahan Penataan Ruang</h2>
+      <p>Pertumbuhan penduduk dan desakan ekonomi sering menimbulkan konflik tata ruang di lapangan:</p>
+
+      <ul style="line-height: 1.8;">
+        <li><strong>Alih Fungsi Lahan Tak Terkendali (<em>Land Conversion</em>):</strong> Kawasan resapan air atau sawah produktif diubah secara ilegal menjadi deretan ruko dan perumahan padat.</li>
+        <li><strong>Pelanggaran Izin Ruang:</strong> Pemilik usaha membangun gudang atau pabrik di atas sempadan sungai atau sempadan danau.</li>
+        <li><strong>Ledakan Pemukiman Kumuh (<em>Urban Sprawl</em>):</strong> Pembangunan kota melebar secara acak ke pinggiran daerah tanpa kesiapan sistem drainase air kotor dan jalan raya.</li>
+        <li><strong>Dampak Langsung:</strong> Penurunan daya dukung lingkungan, bencana kekeringan di musim kemarau, dan banjir bandang saat musim hujan.</li>
+      </ul>
+
+      <div style="background: #FEF2F2; border-left: 6px solid var(--c-red); padding: 16px; border-radius: 10px; margin-top: 15px;">
+        <strong style="color: var(--c-red);">Catatan Kritis Geografis:</strong>
+        <p style="margin: 4px 0 0; color: #991B1B;">Penyimpangan tata ruang yang dibiarkan akan memicu degradasi lingkungan permanen dan menurunkan indeks kebahagiaan warga kota secara signifikan.</p>
+      </div>
+    </section>
+
+    <!-- 6. PRAKTIK & EVALUASI -->
+    <section id="tab-praktik" class="content-section" style="border-top-color: var(--c-darkgreen);">
+      <h2 class="sec-title" style="color: var(--c-darkgreen);"><span class="animated-icon">🔬</span> 6. Kegiatan Pembelajaran (Praktik Kolaboratif Siswa)</h2>
+      
+      <div style="background: #F0FDF4; border: 2px solid #86EFAC; border-radius: 12px; padding: 18px; margin-bottom: 25px;">
+        <p><strong>Nama Aktivitas:</strong> Investigasi Zonasi Lingkungan Sekitar<br>
+        <strong>Tujuan:</strong> Menganalisis kesesuaian antara fungsi ruang di lapangan dengan prinsip tata ruang yang aman.</p>
+        <ul style="margin-top: 10px;">
+          <li><strong>Langkah 1 (Observasi):</strong> Siswa mengamati satu ruas jalan atau kawasan yang ada di sekitar tempat tinggal masing-masing.</li>
+          <li><strong>Langkah 2 (Identifikasi):</strong> Tentukan apakah kawasan tersebut tergolong ke dalam kawasan lindung atau kawasan budidaya.</li>
+          <li><strong>Langkah 3 (Analisis Konflik Ruang):</strong> Temukan satu contoh ketidaksesuaian ruang di lokasi tersebut (misalnya: ruko menutup saluran pembuangan air, atau bengkel oli berdiri di sempadan selokan).</li>
+          <li><strong>Langkah 4 (Perumusan Solusi):</strong> Tuliskan rekomendasi tindakan perbaikan yang semestinya diambil oleh pemerintah kota.</li>
+        </ul>
+      </div>
+
+      <h2 class="sec-title" style="color: #1E3A8A;"><span class="animated-icon">📋</span> 7. Evaluasi Pemahaman Mandiri</h2>
+      <div style="background: #F8FAFC; border-left: 5px solid #3B82F6; padding: 18px; border-radius: 10px;">
+        <ol style="font-weight: 600; line-height: 1.8;">
+          <li>Apa perbedaan mendasar antara <strong>Struktur Ruang</strong> dan <strong>Pola Ruang</strong>?</li>
+          <li>Mengapa kawasan sempadan sungai harus ditetapkan sebagai <strong>Kawasan Lindung</strong> dan dilarang untuk didirikan bangunan permanen?</li>
+          <li>Sebutkan dua akibat langsung yang timbul jika pemerintah daerah tidak menindak tegas pelanggaran izin penataan ruang!</li>
+        </ol>
+      </div>
+    </section>
+
+    <!-- 7. KUIS EVALUASI & REKAP LIVE -->
+    <section id="tab-kuis" class="content-section" style="border-top-color: var(--c-red);">
+      <h2 class="sec-title" style="color: var(--c-red);"><span class="animated-icon">📝</span> Kuis Evaluasi Pembelajaran (10 Soal)</h2>
+      
+      <div id="quiz-reg" class="quiz-card" style="text-align: center;">
+        <h3 style="margin-bottom: 12px; color: #1E293B;">Identitas Peserta Kuis</h3>
+        <p style="margin-bottom: 15px; font-size: 0.9rem; color: #64748B;">Masukkan identitas lengkap Anda untuk mulai mengerjakan kuis evaluasi TP1-3.</p>
+        <input type="text" id="in-name" class="quiz-field" placeholder="Nama Lengkap Siswa" required>
+        <input type="text" id="in-class" class="quiz-field" placeholder="Kelas (Contoh: 12 IPS 1)" required>
+        <button class="action-btn" onclick="startTest()">MULAI KERJAKAN KUIS</button>
+      </div>
+
+      <div id="quiz-body" class="quiz-card" style="display: none;">
+        <div id="quiz-item"></div>
+        <button id="btn-next" class="action-btn" style="background: var(--c-blue); margin-top: 15px; display: none;" onclick="forwardQuestion()">SOAL BERIKUTNYA</button>
+        <button id="btn-done" class="action-btn" style="background: var(--c-darkgreen); margin-top: 15px; display: none;" onclick="finishTest()">KIRIM JAWABAN & LIHAT NILAI</button>
+      </div>
+
+      <div id="quiz-finish" class="quiz-card" style="display: none; text-align: center;">
+        <h2 style="color: var(--c-darkgreen); margin-bottom: 8px;">KUIS SELESAI</h2>
+        <div id="disp-score" style="font-size: 3.5rem; font-weight: 900; color: var(--c-purple); margin: 10px 0;">0</div>
+        <p id="disp-feedback" style="font-size: 1.15rem; font-weight: 800; color: var(--c-orange);"></p>
+        <p style="margin-top: 8px; font-size: 0.88rem; color: #64748B;">*Nilai otomatis terekap ke Google Sheets dan ditayangkan pada tabel rekapitulasi di bawah.</p>
+      </div>
+
+      <div style="margin-top: 30px; border-top: 2px dashed #94A3B8; padding-top: 20px;">
+        <h3 style="color: var(--c-blue); text-align: center; margin-bottom: 6px;">🏆 REKAPITULASI HASIL KUIS SISWA (LIVE SPREADSHEET)</h3>
+        <p style="text-align: center; font-size: 0.88rem; color: #64748B; margin-bottom: 12px;">Data ditarik secara langsung dari Google Sheets pembelajaran.</p>
+        <div id="sheet-data-container" class="table-responsive">
+          <p style="text-align:center; color: #D97706; font-weight: bold;">Memuat data rekapan... ⏳</p>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('date-display').innerText = new Date().toLocaleDateString('id-ID', dateOptions);
+
+    function activateTab(tabId, el) {
+      document.querySelectorAll('.content-section').forEach(s => s.classList.remove('active'));
+      document.querySelectorAll('.menu-item').forEach(b => b.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      el.classList.add('active');
+      window.scrollTo({ top: 180, behavior: 'smooth' });
+      if(tabId === 'tab-kuis') {
+        loadRecapData();
+      }
+    }
+
+    const quizDataset = [
+      {
+        q: "1. Wadah kehidupan manusia dan makhluk hidup lainnya yang meliputi daratan, lautan, serta ruang udara disebut...",
+        opts: ["Wilayah Formal", "Pola Ruang", "Ruang", "Struktur Ruang", "Kawasan Budidaya"],
+        k: 2
+      },
+      {
+        q: "2. Wujud susunan pusat-pusat permukiman serta sistem jaringan sarana dan prasarana yang saling terhubung didefinisikan sebagai...",
+        opts: ["Kawasan Industri", "Tata Ruang", "Batas Administrasi", "Sempadan Pantai", "Lahan Cadangan"],
+        k: 1
+      },
+      {
+        q: "3. Struktur Ruang pada suatu wilayah secara garis besar tersusun atas dua komponen utama, yaitu...",
+        opts: ["Hutan lindung dan sawah", "Pusat kegiatan dan jaringan prasarana", "Pelabuhan dan bandara", "Sempadan sungai dan pantai", "Kawasan perkantoran dan ruko"],
+        k: 1
+      },
+      {
+        q: "4. Jalan arteri yang menghubungkan Pelabuhan Batu Ampar langsung menuju kawasan industri terpadu merupakan contoh konkret dari...",
+        opts: ["Pola Ruang", "Kawasan Lindung", "Struktur Ruang", "Alih Fungsi Lahan", "Urban Sprawl"],
+        k: 2
+      },
+      {
+        q: "5. Pembagian peruntukan ruang untuk fungsi lindung dan fungsi budidaya disebut...",
+        opts: ["Pola Ruang", "Struktur Ruang", "Jaringan Prasarana", "Pusat Pertumbuhan", "Leading Industry"],
+        k: 0
+      },
+      {
+        q: "6. Di bawah ini yang seluruhnya termasuk ke dalam peruntukan Kawasan Lindung adalah...",
+        opts: ["Pabrik semen dan gudang", "Sawah produktif dan pemukiman", "Hutan lindung, sempadan sungai, dan hutan bakau", "Sentra pertokoan dan terminal bus", "Jalan tol dan bandar udara"],
+        k: 2
+      },
+      {
+        q: "7. Dokumen rencana tata ruang skala 1:5.000 yang menjadi dasar hukum izin konfirmasi kesesuaian kegiatan pemanfaatan ruang (KKPR) adalah...",
+        opts: ["RTRW Nasional", "RTRW Provinsi", "Rencana Detail Tata Ruang (RDTR)", "RPJMN", "RTRW Kepulauan"],
+        k: 2
+      },
+      {
+        q: "8. Fenomena pembangunan kota yang melebar secara acak ke pinggiran daerah tanpa kesiapan saluran drainase dan jaringan jalan dikenal sebagai...",
+        opts: ["Brain Drain", "Spread Effect", "Urban Sprawl", "Backwash Effect", "Green Belt"],
+        k: 2
+      },
+      {
+        q: "9. Mengapa kawasan sempadan sungai dilarang keras untuk didirikan bangunan permanen?",
+        opts: ["Agar harga tanah di sekitarnya menjadi mahal", "Karena sempadan sungai berfungsi sebagai kawasan lindung penahan luapan air", "Untuk tempat parkir kendaraan industri", "Karena pemandangan sungai mengganggu kota", "Khusus dijadikan pusat pemerintahan"],
+        k: 1
+      },
+      {
+        q: "10. Pengubahan sawah produktif dan area resapan air menjadi deretan ruko secara ilegal merupakan contoh dinamika negatif yang disebut...",
+        opts: ["Konservasi Spasial", "Alih Fungsi Lahan Tak Terkendali (Land Conversion)", "Penataan Struktur Ruang", "Revitalisasi Lingkungan", "Zonasi Ruang Hijau"],
+        k: 1
+      }
+    ];
+
+    let qPointer = 0;
+    let studentAns = new Array(quizDataset.length).fill(null);
+    let stName = "";
+    let stClass = "";
+
+    function startTest() {
+      stName = document.getElementById('in-name').value.trim();
+      stClass = document.getElementById('in-class').value.trim();
+      if(!stName || !stClass) {
+        alert("Silakan lengkapi Nama dan Kelas terlebih dahulu.");
+        return;
+      }
+      document.getElementById('quiz-reg').style.display = 'none';
+      document.getElementById('quiz-body').style.display = 'block';
+      displayQuestion();
+    }
+
+    function displayQuestion() {
+      const cur = quizDataset[qPointer];
+      const alpha = ["A", "B", "C", "D", "E"];
+      let html = `<div style="font-weight:700; color:#1E3A8A; font-size:1.1rem; margin-bottom:14px;">${cur.q}</div>`;
+      cur.opts.forEach((op, idx) => {
+        html += `<button class="opt-choice" onclick="pickAns(${idx}, this)"><strong>${alpha[idx]}.</strong> ${op}</button>`;
+      });
+      document.getElementById('quiz-item').innerHTML = html;
+      document.getElementById('btn-next').style.display = 'none';
+      document.getElementById('btn-done').style.display = 'none';
+    }
+
+    window.pickAns = function(idx, btn) {
+      document.querySelectorAll('.opt-choice').forEach(b => b.classList.remove('chosen'));
+      btn.classList.add('chosen');
+      studentAns[qPointer] = idx;
+      if(qPointer < quizDataset.length - 1) {
+        document.getElementById('btn-next').style.display = 'block';
+      } else {
+        document.getElementById('btn-done').style.display = 'block';
+      }
+    };
+
+    window.forwardQuestion = function() {
+      qPointer++;
+      displayQuestion();
+    };
+
+    window.finishTest = function() {
+      let finalScore = 0;
+      studentAns.forEach((ans, i) => {
+        if(ans === quizDataset[i].k) finalScore += 10;
+      });
+
+      let remark = "";
+      if (finalScore >= 80) remark = "Tuntas (Sangat Baik)";
+      else if (finalScore >= 60) remark = "Cukup";
+      else remark = "Perlu Pengayaan / Remedial";
+
+      document.getElementById('quiz-body').style.display = 'none';
+      document.getElementById('quiz-finish').style.display = 'block';
+      document.getElementById('disp-score').innerText = finalScore;
+      document.getElementById('disp-feedback').innerText = "Keterangan: " + remark;
+
+      // URL WEB APP APPS SCRIPT ANDA DITEMPEL DI SINI
+      const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzMOy9kg5XOx9jeVO5MuvLWojG3Ew2KRBE3PUBGcNe6zkUSEMQgZJqyuvq_rZqAF9Zb/exec";
+
+      if (WEB_APP_URL !== "TEMPEL_URL_APPS_SCRIPT_ANDA_DISINI") {
+        fetch(WEB_APP_URL, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            nama: stName,
+            kelas: stClass,
+            nilai: finalScore,
+            keterangan: remark
+          })
+        }).then(() => {
+          setTimeout(loadRecapData, 3000);
+        }).catch(err => console.error(err));
+      } else {
+        setTimeout(loadRecapData, 1000);
+      }
+    };
+
+    function loadRecapData() {
+      const sheetId = '1PxsFKNmhFxyiPViC6ihGYfZqoe3nMH4vC6drUQII7zg'; // ID Spreadsheet Modul 3
+      const endpoint = `https://docs.google.com/spreadsheets/d/${sheetId}/gviz/tq?tqx=out:json`;
+
+      fetch(endpoint)
+        .then(res => res.text())
+        .then(resText => {
+          const raw = resText.match(/google\.visualization\.Query\.setResponse\(([\s\S\w]+)\);/)[1];
+          const parsed = JSON.parse(raw);
+          const rows = parsed.table.rows;
+
+          let out = `<table class="recap-table">
+            <thead>
+              <tr>
+                <th>Waktu Pengerjaan</th>
+                <th>Nama Lengkap</th>
+                <th>Kelas</th>
+                <th>Nilai</th>
+                <th>Keterangan</th>
+              </tr>
+            </thead>
+            <tbody>`;
+
+          for (let i = rows.length - 1; i >= 0; i--) {
+            if (!rows[i].c || !rows[i].c[1] || !rows[i].c[1].v) continue;
+            let waktu = rows[i].c[0] ? (rows[i].c[0].f || rows[i].c[0].v) : '-';
+            let nama = rows[i].c[1] ? rows[i].c[1].v : '-';
+            let kelas = rows[i].c[2] ? rows[i].c[2].v : '-';
+            let nilai = rows[i].c[3] ? rows[i].c[3].v : '0';
+            let ket = rows[i].c[4] ? rows[i].c[4].v : '-';
+
+            out += `<tr>
+              <td>${waktu}</td>
+              <td><strong>${nama}</strong></td>
+              <td>${kelas}</td>
+              <td style="font-weight:800; color:var(--c-purple);">${nilai}</td>
+              <td>${ket}</td>
+            </tr>`;
+          }
+
+          out += `</tbody></table>`;
+          document.getElementById('sheet-data-container').innerHTML = out;
+        })
+        .catch(err => {
+          document.getElementById('sheet-data-container').innerHTML = 
+            '<p style="color:#DC2626; text-align:center;">Belum ada data nilai yang masuk atau pastikan link Google Sheets telah disetel "Siapa saja yang memiliki link" sebagai Pelihat.</p>';
+        });
+    }
+
+    loadRecapData();
+  </script>
+</body>
+</html>
