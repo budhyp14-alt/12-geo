@@ -1,1 +1,1071 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Modul 1: Mengenal Konsep Wilayah dan Perwilayahan</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  
+  <style>
+    /* =======================================================
+       PALET 7 WARNA UTAMA SESUAI GAMBAR SAMPEL:
+       1. Ungu        : #7E22CE / #9333EA
+       2. Biru        : #1D4ED8 / #2563EB
+       3. Hijau Muda  : #22C55E / #16A34A
+       4. Kuning      : #EAB308 / #FACC15
+       5. Oranye      : #EA580C / #F97316
+       6. Merah       : #DC2626 / #EF4444
+       7. Hijau Tua   : #15803D / #14532D
+       ======================================================= */
+    :root {
+      --c-purple: #7E22CE;
+      --c-purple-light: #F3E8FF;
+      --c-blue: #1D4ED8;
+      --c-blue-light: #EFF6FF;
+      --c-lime: #16A34A;
+      --c-lime-light: #DCFCE7;
+      --c-yellow: #CA8A04;
+      --c-yellow-bright: #FACC15;
+      --c-yellow-bg: #FEF9C3;
+      --c-orange: #EA580C;
+      --c-orange-light: #FFEDD5;
+      --c-red: #DC2626;
+      --c-red-light: #FEE2E2;
+      --c-darkgreen: #14532D;
+      --c-darkgreen-light: #E7F6EC;
+      
+      --bg-body: #F8FAFC;
+      --bg-card: #FFFFFF;
+      --text-dark: #0F172A;
+      --text-muted: #475569;
+      --radius: 20px;
+      --shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    }
 
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-body);
+      color: var(--text-dark);
+      padding-bottom: 95px;
+      overflow-x: hidden;
+      line-height: 1.6;
+    }
+
+    /* Top Realtime Progress Bar */
+    #progress-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: rgba(0,0,0,0.06);
+      z-index: 1100;
+    }
+    #progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, var(--c-purple), var(--c-blue), var(--c-lime), var(--c-yellow-bright), var(--c-orange), var(--c-red), var(--c-darkgreen));
+      transition: width 0.25s ease;
+    }
+
+    /* Header Hero Section */
+    header {
+      background: linear-gradient(135deg, var(--c-purple), var(--c-blue));
+      color: white;
+      padding: 44px 20px 34px;
+      border-radius: 0 0 30px 30px;
+      box-shadow: 0 12px 30px rgba(29, 78, 216, 0.22);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    header::before {
+      content: '';
+      position: absolute;
+      width: 260px;
+      height: 260px;
+      background: radial-gradient(circle, rgba(250,204,21,0.22) 0%, transparent 70%);
+      top: -60px;
+      right: -60px;
+      border-radius: 50%;
+      animation: floatOrb 7s infinite ease-in-out;
+    }
+    .badge-top {
+      display: inline-block;
+      background: var(--c-yellow-bg);
+      color: var(--c-yellow);
+      font-weight: 800;
+      font-size: 0.78rem;
+      padding: 6px 16px;
+      border-radius: 999px;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 12px;
+      border: 1px solid rgba(202, 138, 4, 0.35);
+    }
+    header h1 {
+      font-size: 1.65rem;
+      font-weight: 800;
+      line-height: 1.3;
+      margin-bottom: 8px;
+    }
+    header p {
+      font-size: 0.92rem;
+      opacity: 0.92;
+      max-width: 620px;
+      margin: 0 auto;
+    }
+
+    /* Container */
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 22px 16px;
+    }
+
+    /* Sticky Navigation Tabs (Responsive Desktop & Mobile) */
+    .nav-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding: 6px;
+      background: #FFFFFF;
+      border-radius: 16px;
+      box-shadow: var(--shadow);
+      position: sticky;
+      top: 12px;
+      z-index: 1000;
+      margin-bottom: 24px;
+      scrollbar-width: none;
+    }
+    .nav-tabs::-webkit-scrollbar { display: none; }
+    .nav-btn {
+      flex: 1;
+      min-width: max-content;
+      padding: 11px 16px;
+      border: none;
+      background: transparent;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .nav-btn.active {
+      background: var(--c-blue);
+      color: #FFFFFF;
+      box-shadow: 0 4px 14px rgba(29, 78, 216, 0.32);
+      transform: translateY(-1px);
+    }
+
+    /* Main Cards */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      padding: 26px;
+      margin-bottom: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid #F1F5F9;
+      animation: fadeIn 0.35s ease-out;
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .pill-num {
+      width: 34px;
+      height: 34px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 800;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    /* Callout Boxes */
+    .callout {
+      border-radius: 14px;
+      padding: 16px 18px;
+      margin-top: 14px;
+      margin-bottom: 14px;
+      font-size: 0.9rem;
+    }
+    .callout-purple {
+      background: var(--c-purple-light);
+      border-left: 5px solid var(--c-purple);
+      color: #4A044E;
+    }
+    .callout-blue {
+      background: var(--c-blue-light);
+      border-left: 5px solid var(--c-blue);
+      color: #1E3A8A;
+    }
+    .callout-orange {
+      background: var(--c-orange-light);
+      border-left: 5px solid var(--c-orange);
+      color: #7C2D12;
+    }
+    .callout-lime {
+      background: var(--c-lime-light);
+      border-left: 5px solid var(--c-lime);
+      color: var(--c-darkgreen);
+    }
+    .callout-yellow {
+      background: var(--c-yellow-bg);
+      border-left: 5px solid var(--c-yellow);
+      color: #713F12;
+    }
+    .callout-red {
+      background: var(--c-red-light);
+      border-left: 5px solid var(--c-red);
+      color: #7F1D1D;
+    }
+    .callout-darkgreen {
+      background: var(--c-darkgreen-light);
+      border-left: 5px solid var(--c-darkgreen);
+      color: var(--c-darkgreen);
+    }
+
+    /* Tree Diagram Banner */
+    .tree-box {
+      background: #0F172A;
+      color: #FFFFFF;
+      padding: 18px 20px;
+      border-radius: 14px;
+      margin: 18px 0;
+      font-family: monospace;
+      font-size: 0.88rem;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.5;
+      border: 1px solid #334155;
+    }
+
+    /* Sub Cards Grid */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 16px;
+      margin-top: 16px;
+    }
+    @media(min-width: 650px) {
+      .grid-2 { grid-template-columns: 1fr 1fr; }
+    }
+    .sub-card {
+      border-radius: 16px;
+      padding: 20px;
+      position: relative;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+    .sub-card:hover {
+      transform: translateY(-3px);
+    }
+    .sub-card.formal-box {
+      background: var(--c-blue-light);
+      border: 2px solid rgba(29, 78, 216, 0.2);
+    }
+    .sub-card.fungsional-box {
+      background: var(--c-orange-light);
+      border: 2px solid rgba(234, 88, 12, 0.2);
+    }
+    .tag-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      padding: 4px 10px;
+      border-radius: 6px;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 10px;
+      color: white;
+    }
+
+    /* Table Styling */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 16px;
+      border-radius: 14px;
+      border: 1px solid #E2E8F0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.88rem;
+      text-align: left;
+      background: white;
+    }
+    th {
+      background: #1E293B;
+      color: white;
+      padding: 14px;
+      font-weight: 700;
+    }
+    td {
+      padding: 13px 14px;
+      border-bottom: 1px solid #F1F5F9;
+      vertical-align: top;
+    }
+    tr:nth-child(even) {
+      background: #F8FAFC;
+    }
+
+    /* Interactive Lab Box */
+    .lab-container {
+      background: #0F172A;
+      color: #FFFFFF;
+      border-radius: var(--radius);
+      padding: 22px;
+      margin-top: 20px;
+    }
+    .lab-card-interactive {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .btn-choice {
+      padding: 8px 16px;
+      border-radius: 8px;
+      border: none;
+      font-weight: 700;
+      font-size: 0.82rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .btn-choice-blue {
+      background: var(--c-blue);
+      color: white;
+    }
+    .btn-choice-orange {
+      background: var(--c-orange);
+      color: white;
+    }
+    .btn-choice:hover {
+      filter: brightness(1.15);
+      transform: scale(1.03);
+    }
+
+    /* Quiz Styling */
+    .quiz-option {
+      width: 100%;
+      text-align: left;
+      background: #F8FAFC;
+      border: 2px solid #E2E8F0;
+      padding: 14px;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .quiz-option:hover {
+      background: var(--c-purple-light);
+      border-color: var(--c-purple);
+    }
+    .quiz-option.correct {
+      background: var(--c-lime-light) !important;
+      border-color: var(--c-lime) !important;
+      color: var(--c-darkgreen);
+    }
+    .quiz-option.wrong {
+      background: var(--c-red-light) !important;
+      border-color: var(--c-red) !important;
+      color: var(--c-red);
+    }
+
+    /* Floating Bottom Bar */
+    .bottom-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background: #FFFFFF;
+      border-top: 1px solid #E2E8F0;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+      z-index: 1050;
+    }
+    .bottom-btn {
+      background: var(--c-purple);
+      color: white;
+      border: none;
+      padding: 10px 22px;
+      border-radius: 12px;
+      font-weight: 700;
+      cursor: pointer;
+      font-size: 0.88rem;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.2s;
+    }
+    .bottom-btn:hover {
+      background: #6B21A8;
+    }
+
+    /* Animation Keyframes */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes floatOrb {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-12px) scale(1.05); }
+    }
+
+    /* Color Classes */
+    .bg-purple { background-color: var(--c-purple); }
+    .bg-blue { background-color: var(--c-blue); }
+    .bg-lime { background-color: var(--c-lime); }
+    .bg-yellow { background-color: var(--c-yellow); }
+    .bg-orange { background-color: var(--c-orange); }
+    .bg-red { background-color: var(--c-red); }
+    .bg-darkgreen { background-color: var(--c-darkgreen); }
+  </style>
+</head>
+<body>
+
+  <!-- Top Real-time Progress Bar -->
+  <div id="progress-container">
+    <div id="progress-bar"></div>
+  </div>
+
+  <!-- Header Banner -->
+  <header>
+    <span class="badge-top">Geografi Fase F • Kurikulum Merdeka</span>
+    <h1>MATERI PEMBELAJARAN MODUL 1</h1>
+    <p>MENGENAL KONSEP WILAYAH DAN PERWILAYAHAN</p>
+  </header>
+
+  <!-- Main Container -->
+  <div class="container">
+
+    <!-- Sticky Navigation Tabs -->
+    <nav class="nav-tabs">
+      <button class="nav-btn active" onclick="showTab('tab-pemantik', this)">
+        <span>🎯</span> Pemantik & TP
+      </button>
+      <button class="nav-btn" onclick="showTab('tab-hakikat', this)">
+        <span>🌍</span> 1. Hakikat Wilayah
+      </button>
+      <button class="nav-btn" onclick="showTab('tab-jenis', this)">
+        <span>⚖️</span> 2. Jenis Wilayah
+      </button>
+      <button class="nav-btn" onclick="showTab('tab-perwilayahan', this)">
+        <span>📐</span> 3. Perwilayahan
+      </button>
+      <button class="nav-btn" onclick="showTab('tab-lab', this)">
+        <span>🧪</span> Mini Lab
+      </button>
+      <button class="nav-btn" onclick="showTab('tab-kuis', this)">
+        <span>📝</span> Kuis Mandiri
+      </button>
+      <button class="nav-btn" onclick="showTab('tab-refleksi', this)">
+        <span>💡</span> Refleksi
+      </button>
+    </nav>
+
+    <!-- ==========================================
+         TAB 0: TUJUAN PEMBELAJARAN & PEMANTIK
+         ========================================== -->
+    <section id="tab-pemantik" class="tab-pane">
+      <div class="card">
+        <div class="card-title">
+          <div class="pill-num bg-purple">🎯</div>
+          <span>Tujuan Pembelajaran & Pertanyaan Pemantik</span>
+        </div>
+
+        <!-- Tujuan Pembelajaran -->
+        <div class="callout callout-purple">
+          <strong style="font-size: 1rem; color: var(--c-purple); display: block; margin-bottom: 6px;">Tujuan Pembelajaran:</strong>
+          <p style="font-size: 0.92rem; line-height: 1.6;">
+            Siswa mampu membedakan pengertian wilayah formal dan wilayah fungsional serta menjelaskan tujuan dan metode perwilayahan berdasarkan kenyataan di lingkungan sekitar.
+          </p>
+        </div>
+
+        <!-- Pertanyaan Pemantik -->
+        <div class="callout callout-orange" style="margin-top: 18px;">
+          <strong style="font-size: 1rem; color: var(--c-orange); display: block; margin-bottom: 8px;">Pertanyaan Pemantik:</strong>
+          <ul style="margin-left: 20px; font-size: 0.92rem; line-height: 1.65;">
+            <li style="margin-bottom: 8px;">
+              Mengapa pemandangan hamparan kebun teh di perbukitan terasa sangat berbeda suasananya dengan suasana pasar induk di pusat kota?
+            </li>
+            <li>
+              Ke mana orang-orang di sekitar rumahmu pergi saat ingin berobat ke rumah sakit besar atau membeli barang elektronik? Mengapa mereka bergerak ke titik yang sama?
+            </li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 1: HAKIKAT WILAYAH (REGION)
+         ========================================== -->
+    <section id="tab-hakikat" class="tab-pane" style="display: none;">
+      <div class="card">
+        <div class="card-title">
+          <div class="pill-num bg-blue">1</div>
+          <span>Hakikat Wilayah (Region)</span>
+        </div>
+
+        <p style="font-size: 0.95rem; line-height: 1.7; margin-bottom: 14px;">
+          Di muka bumi ini, tidak ada satu tempat pun yang keadaannya seratus persen sama persis dengan tempat lain. Permukaan bumi tersusun dari hamparan tempat yang berbeda-beda.
+        </p>
+
+        <div class="callout callout-blue">
+          <p style="font-size: 0.96rem; font-weight: 600; line-height: 1.65;">
+            <strong>Wilayah</strong> adalah sebidang ruang di permukaan bumi yang memiliki sifat atau ciri khas tertentu, sehingga terlihat jelas perbedaannya jika dibandingkan dengan daerah lain di sekitarnya.
+          </p>
+        </div>
+
+        <p style="font-size: 0.95rem; line-height: 1.7; margin-top: 14px;">
+          Ciri khas ini bisa berupa bentang alam ciptaan Tuhan (seperti sungai, suhu udara, tanah kapur) maupun hasil buatan manusia (seperti kompleks perkebunan sawit, kawasan pabrik, atau pemukiman adat).
+        </p>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 2: DUA JENIS WILAYAH DALAM GEOGRAFI
+         ========================================== -->
+    <section id="tab-jenis" class="tab-pane" style="display: none;">
+      <div class="card">
+        <div class="card-title">
+          <div class="pill-num bg-lime">2</div>
+          <span>Dua Jenis Wilayah dalam Geografi</span>
+        </div>
+
+        <p style="font-size: 0.95rem; line-height: 1.6;">
+          Untuk memudahkan pengamatan, ahli geografi membagi wilayah menjadi dua jenis utama:
+        </p>
+
+        <!-- Bagan Pohon Lengkap Dari Dokumen -->
+        <div class="tree-box">                            ┌─── WILAYAH FORMAL (Keseragaman Rupa/Fisik/Sosial)
+JENIS-JENIS WILAYAH ────────┤
+                            └─── WILAYAH FUNGSIONAL (Keterkaitan Arus & Pusat Kegiatan)</div>
+
+        <!-- Bagian A & B -->
+        <div class="grid-2">
+          
+          <!-- A. Wilayah Formal -->
+          <div class="sub-card formal-box">
+            <span class="tag-badge bg-blue">A. Wilayah Formal (Uniform Region)</span>
+            <p style="font-size: 0.88rem; line-height: 1.6; margin-bottom: 12px;">
+              Kata <strong>formal</strong> berasal dari kata <em>form</em> yang berarti bentuk atau wujud. Wilayah formal adalah wilayah yang dikelompokkan karena seluruh areanya memiliki kesamaan (keseragaman) sifat dari ujung ke ujung.
+            </p>
+
+            <strong style="font-size: 0.82rem; color: var(--c-blue); text-transform: uppercase; display: block; margin-top: 10px;">Ciri-ciri Wilayah Formal:</strong>
+            <ul style="font-size: 0.84rem; margin-left: 18px; margin-top: 4px; line-height: 1.55;">
+              <li><strong>Bersifat Pasif / Statis:</strong> Wilayah ini dinilai dari rupa fisiknya yang cenderung tetap, bukan dari lalu lintas kendaraannya.</li>
+              <li><strong>Batas Wilayah Jelas:</strong> Garis batasnya mudah digambar di peta berdasarkan data fisik atau data administrasi resmi.</li>
+            </ul>
+
+            <strong style="font-size: 0.82rem; color: var(--c-blue); text-transform: uppercase; display: block; margin-top: 10px;">Contoh Wilayah Formal:</strong>
+            <ul style="font-size: 0.84rem; margin-left: 18px; margin-top: 4px; line-height: 1.55;">
+              <li><strong>Keseragaman Alam (Fisik):</strong> Kawasan Pegunungan Kapur Karst (seluruh tanahnya berbukit kapur putih dan kering), Kawasan Hutan Hujan Tropis, Wilayah Pesisir Pantai Nelayan.</li>
+              <li><strong>Keseragaman Manusia (Sosial/Budaya):</strong> Kawasan Perkebunan Teh, Kawasan Persawahan Padi Pasang Surut, Wilayah Perkampungan Suku Baduy Dalam.</li>
+            </ul>
+          </div>
+
+          <!-- B. Wilayah Fungsional -->
+          <div class="sub-card fungsional-box">
+            <span class="tag-badge bg-orange">B. Wilayah Fungsional (Nodal Region)</span>
+            <p style="font-size: 0.88rem; line-height: 1.6; margin-bottom: 12px;">
+              Kata <strong>fungsional</strong> berarti adanya fungsi kerja sama dan saling ketergantungan. Wilayah fungsional adalah wilayah yang terbentuk karena adanya hubungan timbal balik dan pergerakan aktif antara satu titik pusat kegiatan dengan daerah-daerah penyangga di sekelilingnya.
+            </p>
+
+            <strong style="font-size: 0.82rem; color: var(--c-orange); text-transform: uppercase; display: block; margin-top: 10px;">Ciri-ciri Wilayah Fungsional:</strong>
+            <ul style="font-size: 0.84rem; margin-left: 18px; margin-top: 4px; line-height: 1.55;">
+              <li><strong>Memiliki Titik Pusat (Node):</strong> Ada satu lokasi utama yang menjadi magnet pergerakan (seperti pasar induk, stasiun sentral, atau kawasan perkantoran kota).</li>
+              <li><strong>Memiliki Wilayah Belakang (Hinterland):</strong> Daerah di sekeliling pusat yang memasok bahan pangan, tenaga kerja, atau bahan mentah ke pusat kota.</li>
+              <li><strong>Bersifat Sangat Aktif / Dinamis:</strong> Wilayah ini hidup karena adanya arus lalu lintas kendaraan pengangkut barang, pergerakan pekerja harian, dan aliran uang.</li>
+            </ul>
+          </div>
+
+        </div>
+
+        <!-- Tabel Ciri Pembeda Lengkap Sesuai Dokumen -->
+        <h4 style="margin-top: 24px; margin-bottom: 8px; font-size: 1rem; color: var(--text-dark);">
+          Tabel Ciri Pembeda Wilayah Formal dan Fungsional:
+        </h4>
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th style="width: 25%;">Ciri Pembeda</th>
+                <th style="width: 37.5%; background: var(--c-blue);">Wilayah Formal (Uniform)</th>
+                <th style="width: 37.5%; background: var(--c-orange);">Wilayah Fungsional (Nodal)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Dasar Pengelompokan</strong></td>
+                <td>Kesamaan bentuk fisik atau ciri sosial</td>
+                <td>Hubungan kerja sama dan arus pergerakan</td>
+              </tr>
+              <tr>
+                <td><strong>Sifat Keadaan</strong></td>
+                <td>Diam / Statis</td>
+                <td>Bergerak aktif / Dinamis</td>
+              </tr>
+              <tr>
+                <td><strong>Garis Batas</strong></td>
+                <td>Tegas dan tetap di peta</td>
+                <td>Berubah-ubah mengikuti jangkauan transportasi</td>
+              </tr>
+              <tr>
+                <td><strong>Contoh Nyata</strong></td>
+                <td>Hamparan Kebun Karet, Kawasan Gurun Pasir</td>
+                <td>Kawasan Jabodetabek, Area Jangkauan Rumah Sakit Umum</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 3: KONSEP PERWILAYAHAN (REGIONALISASI)
+         ========================================== -->
+    <section id="tab-perwilayahan" class="tab-pane" style="display: none;">
+      <div class="card">
+        <div class="card-title">
+          <div class="pill-num bg-yellow">3</div>
+          <span>Konsep Perwilayahan (Regionalisasi)</span>
+        </div>
+
+        <div class="callout callout-yellow">
+          <p style="font-size: 0.95rem; font-weight: 600; line-height: 1.65;">
+            Jika <strong>wilayah</strong> adalah nama tempatnya, maka <strong>perwilayahan</strong> adalah cara atau proses membagi-bagi peta bumi menjadi bagian-bagian yang lebih kecil dan teratur.
+          </p>
+        </div>
+
+        <h4 style="margin-top: 20px; margin-bottom: 12px; font-size: 1rem; color: var(--text-dark);">
+          Mengapa bumi harus dibagi-bagi lewat perwilayahan?
+        </h4>
+
+        <div style="display: flex; flex-direction: column; gap: 12px;">
+          <!-- Poin 1 -->
+          <div class="callout callout-darkgreen" style="margin: 0;">
+            <strong style="font-size: 0.92rem; display: block; margin-bottom: 4px;">1. Memudahkan Perencanaan Pemerintah:</strong>
+            <p style="font-size: 0.88rem; line-height: 1.6;">
+              Membantu bupati atau gubernur menentukan program yang tepat. Daerah pesisir dibantu alat tangkap ikan, sedangkan daerah pegunungan dibantu bibit sayur.
+            </p>
+          </div>
+
+          <!-- Poin 2 -->
+          <div class="callout callout-blue" style="margin: 0;">
+            <strong style="font-size: 0.92rem; display: block; margin-bottom: 4px;">2. Meratakan Pembangunan:</strong>
+            <p style="font-size: 0.88rem; line-height: 1.6;">
+              Mencegah anggaran negara hanya menumpuk di satu daerah saja sementara daerah lain tertinggal.
+            </p>
+          </div>
+
+          <!-- Poin 3 -->
+          <div class="callout callout-purple" style="margin: 0;">
+            <strong style="font-size: 0.92rem; display: block; margin-bottom: 4px;">3. Menyederhanakan Informasi Peta:</strong>
+            <p style="font-size: 0.88rem; line-height: 1.6;">
+              Merangkum ribuan data permukaan bumi yang rumit menjadi peta zonasi yang rapi dan mudah dibaca oleh masyarakat umum.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 4: MINI LAB INTERAKTIF
+         ========================================== -->
+    <section id="tab-lab" class="tab-pane" style="display: none;">
+      <div class="card">
+        <div class="card-title">
+          <div class="pill-num bg-orange">🧪</div>
+          <span>Mini Lab: Klasifikasi Wilayah Cepat</span>
+        </div>
+        <p style="font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px;">
+          Uji pemahamanmu terhadap contoh-contoh nyata dari materi di atas. Tentukan apakah objek berikut merupakan <strong>Wilayah Formal</strong> atau <strong>Wilayah Fungsional</strong>!
+        </p>
+
+        <div class="lab-container">
+          
+          <!-- Item 1 -->
+          <div id="lab-item-1" class="lab-card-interactive">
+            <div>
+              <div style="font-size: 0.75rem; color: #94A3B8;">Kasus 1</div>
+              <strong style="font-size: 0.92rem;">🌾 Kawasan Persawahan Padi Pasang Surut</strong>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-choice btn-choice-blue" onclick="checkLab(1, 'formal')">Wilayah Formal</button>
+              <button class="btn-choice btn-choice-orange" onclick="checkLab(1, 'fungsional')">Wilayah Fungsional</button>
+            </div>
+          </div>
+
+          <!-- Item 2 -->
+          <div id="lab-item-2" class="lab-card-interactive">
+            <div>
+              <div style="font-size: 0.75rem; color: #94A3B8;">Kasus 2</div>
+              <strong style="font-size: 0.92rem;">🏙️ Kawasan Metropolitan Jabodetabek</strong>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-choice btn-choice-blue" onclick="checkLab(2, 'formal')">Wilayah Formal</button>
+              <button class="btn-choice btn-choice-orange" onclick="checkLab(2, 'fungsional')">Wilayah Fungsional</button>
+            </div>
+          </div>
+
+          <!-- Item 3 -->
+          <div id="lab-item-3" class="lab-card-interactive">
+            <div>
+              <div style="font-size: 0.75rem; color: #94A3B8;">Kasus 3</div>
+              <strong style="font-size: 0.92rem;">⛰️ Kawasan Pegunungan Kapur Karst</strong>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-choice btn-choice-blue" onclick="checkLab(3, 'formal')">Wilayah Formal</button>
+              <button class="btn-choice btn-choice-orange" onclick="checkLab(3, 'fungsional')">Wilayah Fungsional</button>
+            </div>
+          </div>
+
+          <!-- Item 4 -->
+          <div id="lab-item-4" class="lab-card-interactive">
+            <div>
+              <div style="font-size: 0.75rem; color: #94A3B8;">Kasus 4</div>
+              <strong style="font-size: 0.92rem;">🏥 Area Jangkauan Pasien Rumah Sakit Rujukan Umum</strong>
+            </div>
+            <div style="display: flex; gap: 8px;">
+              <button class="btn-choice btn-choice-blue" onclick="checkLab(4, 'formal')">Wilayah Formal</button>
+              <button class="btn-choice btn-choice-orange" onclick="checkLab(4, 'fungsional')">Wilayah Fungsional</button>
+            </div>
+          </div>
+
+          <div id="lab-status" style="margin-top: 14px; font-weight: 700; font-size: 0.92rem; text-align: center; min-height: 24px;"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 5: KUIS MANDIRI (5 SOAL LENGKAP)
+         ========================================== -->
+    <section id="tab-kuis" class="tab-pane" style="display: none;">
+      <div class="card">
+        <div class="card-title">
+          <div class="pill-num bg-red">📝</div>
+          <span>Kuis Mandiri: Pemahaman Konsep Modul 1</span>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 18px;">
+          Pilih jawaban yang paling tepat berdasarkan seluruh isi materi pembelajaran Modul 1!
+        </p>
+
+        <div id="quiz-area">
+          <div id="quiz-q-title" style="font-weight: 700; font-size: 1rem; margin-bottom: 14px;"></div>
+          <div id="quiz-opts"></div>
+          <div id="quiz-feedback" style="margin-top: 14px; font-size: 0.88rem; padding: 12px; border-radius: 10px; display: none;"></div>
+        </div>
+
+        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+          <span id="quiz-points" style="font-weight: 800; font-size: 0.95rem; color: var(--c-purple);">Skor: 0 / 100</span>
+          <button id="btn-quiz-next" class="bottom-btn" style="display: none;" onclick="goNextQuiz()">Soal Selanjutnya ➔</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         TAB 6: REFLEKSI 3M
+         ========================================== -->
+    <section id="tab-refleksi" class="tab-pane" style="display: none;">
+      <div class="card">
+        <div class="card-title">
+          <div class="pill-num bg-darkgreen">💡</div>
+          <span>Lembar Refleksi Pembelajaran Mendalam (3M)</span>
+        </div>
+        <p style="font-size: 0.88rem; color: var(--text-muted); margin-bottom: 18px;">
+          Jawablah refleksi berikut untuk mengukur pemahaman dan keterkaitan materi dengan lingkungan sekitarmu!
+        </p>
+
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <div>
+            <label style="font-size: 0.86rem; font-weight: 700; color: var(--c-purple); display: block; margin-bottom: 5px;">
+              🧠 Mindful (Kesadaran Konsep):
+            </label>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">
+              Berdasarkan materi yang kamu pelajari, apa perbedaan paling mendasar antara sifat wilayah formal (pasif/statis) dengan wilayah fungsional (aktif/dinamis)?
+            </p>
+            <textarea id="ref-q1" rows="2" placeholder="Tulis pemahamanmu di sini..." style="width: 100%; padding: 12px; border: 2px solid #E2E8F0; border-radius: 10px; font-size: 0.86rem;"></textarea>
+          </div>
+
+          <div>
+            <label style="font-size: 0.86rem; font-weight: 700; color: var(--c-darkgreen); display: block; margin-bottom: 5px;">
+              🌱 Meaningful (Keterkaitan Nyata):
+            </label>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">
+              Sebutkan 1 contoh titik pusat (node) dan wilayah penyangga (hinterland) yang nyata ada di daerah tempat tinggalmu!
+            </p>
+            <textarea id="ref-q2" rows="2" placeholder="Contoh: Pasar Induk X sebagai pusat yang disuplai oleh petani dari desa Y..." style="width: 100%; padding: 12px; border: 2px solid #E2E8F0; border-radius: 10px; font-size: 0.86rem;"></textarea>
+          </div>
+
+          <div>
+            <label style="font-size: 0.86rem; font-weight: 700; color: var(--c-orange); display: block; margin-bottom: 5px;">
+              ✨ Joyful (Aplikasi & Manfaat):
+            </label>
+            <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 6px;">
+              Menurutmu, mengapa pembagian peta wilayah (perwilayahan) sangat penting agar pembangunan fasilitas sekolah dan jalan raya bisa merata?
+            </p>
+            <textarea id="ref-q3" rows="2" placeholder="Tulis pendapatmu..." style="width: 100%; padding: 12px; border: 2px solid #E2E8F0; border-radius: 10px; font-size: 0.86rem;"></textarea>
+          </div>
+
+          <button class="bottom-btn" style="background: var(--c-lime); color: black; font-weight: 800; justify-content: center;" onclick="saveRef()">
+            💾 Simpan Refleksi Saya
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <!-- Bottom Floating Navigation Bar -->
+  <div class="bottom-bar">
+    <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted);">
+      Progres Modul: <span id="progress-indicator" class="text-purple">14%</span>
+    </div>
+    <button class="bottom-btn" onclick="nextTabStep()">
+      Lanjut Bab ➔
+    </button>
+  </div>
+
+  <!-- JavaScript Logika & Interaktivitas -->
+  <script>
+    // Tab Navigation
+    const tabList = ['tab-pemantik', 'tab-hakikat', 'tab-jenis', 'tab-perwilayahan', 'tab-lab', 'tab-kuis', 'tab-refleksi'];
+    let currentTabIdx = 0;
+
+    function refreshProgress() {
+      const percentage = Math.round(((currentTabIdx + 1) / tabList.length) * 100);
+      document.getElementById('progress-bar').style.width = percentage + '%';
+      document.getElementById('progress-indicator').innerText = percentage + '%';
+    }
+
+    function showTab(tabId, btn) {
+      document.querySelectorAll('.tab-pane').forEach(el => el.style.display = 'none');
+      document.getElementById(tabId).style.display = 'block';
+
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      if(btn) btn.classList.add('active');
+
+      currentTabIdx = tabList.indexOf(tabId);
+      refreshProgress();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function nextTabStep() {
+      if (currentTabIdx < tabList.length - 1) {
+        currentTabIdx++;
+        const targetId = tabList[currentTabIdx];
+        const targetBtn = document.querySelectorAll('.nav-btn')[currentTabIdx];
+        showTab(targetId, targetBtn);
+      } else {
+        alert('🎉 Hebat! Kamu sudah membaca dan menyelesaikan seluruh rangkaian Modul 1.');
+      }
+    }
+
+    // Mini Lab Functionality
+    function checkLab(itemNum, chosen) {
+      const feedback = document.getElementById('lab-status');
+      const card = document.getElementById(`lab-item-${itemNum}`);
+
+      const correctAnswers = {
+        1: 'formal',     // Persawahan padi pasang surut
+        2: 'fungsional', // Jabodetabek
+        3: 'formal',     // Pegunungan kapur karst
+        4: 'fungsional'  // Area jangkauan RS rujukan
+      };
+
+      if (chosen === correctAnswers[itemNum]) {
+        card.style.background = 'rgba(22, 163, 74, 0.25)';
+        card.style.borderColor = 'var(--c-lime)';
+        feedback.innerHTML = '<span style="color: var(--c-lime-light);">✅ Tepat Sekali! Analisis karakteristikmu benar.</span>';
+      } else {
+        card.style.background = 'rgba(220, 38, 38, 0.25)';
+        card.style.borderColor = 'var(--c-red)';
+        feedback.innerHTML = '<span style="color: #FCA5A5;">❌ Kurang tepat. Cermati apakah dasarnya keseragaman fisik atau pergerakan fungsi!</span>';
+      }
+    }
+
+    // Quiz Questions Based Purely on tp1-1.docx
+    const quizQuestions = [
+      {
+        q: "1. Berdasarkan materi, kata 'formal' pada istilah Wilayah Formal berasal dari kata 'form' yang berarti...",
+        options: [
+          "Resmi dan tercatat di dinas kependudukan",
+          "Bentuk atau wujud",
+          "Keterkaitan aliran kendaraan",
+          "Fungsi ekonomi pasar"
+        ],
+        ans: 1,
+        exp: "Kata formal berasal dari kata 'form' yang berarti bentuk atau wujud, karena dikelompokkan atas dasar kesamaan sifat dari ujung ke ujung."
+      },
+      {
+        q: "2. Mengapa Wilayah Formal disebut bersifat 'pasif / statis'?",
+        options: [
+          "Karena batas wilayahnya berubah-ubah mengikuti jam kantor",
+          "Karena dinilai dari rupa fisiknya yang cenderung tetap, bukan dari lalu lintas kendaraannya",
+          "Karena tidak boleh ditinggali oleh manusia",
+          "Karena seluruh tanahnya berupa gurun pasir"
+        ],
+        ans: 1,
+        exp: "Wilayah formal bersifat pasif/statis karena pengamatannya didasarkan pada rupa fisik yang tetap, bukan aktivitas arus kendaraan."
+      },
+      {
+        q: "3. Daerah di sekeliling pusat kota yang memasok bahan pangan, tenaga kerja, atau bahan mentah disebut sebagai...",
+        options: [
+          "Titik Pusat (Node)",
+          "Wilayah Belakang (Hinterland)",
+          "Kawasan Karst",
+          "Wilayah Pasif"
+        ],
+        ans: 1,
+        exp: "Wilayah belakang (hinterland) adalah daerah pendukung yang memasok kebutuhan pangan dan tenaga kerja ke pusat kegiatan."
+      },
+      {
+        q: "4. Manakah di bawah ini yang merupakan contoh Wilayah Fungsional berdasarkan materi?",
+        options: [
+          "Kawasan Pegunungan Kapur Karst",
+          "Kawasan Hutan Hujan Tropis",
+          "Hamparan Kebun Karet",
+          "Kawasan Jabodetabek dan Area Jangkauan Rumah Sakit Umum"
+        ],
+        ans: 3,
+        exp: "Kawasan Jabodetabek dan area jangkauan RS merupakan contoh wilayah fungsional karena disatukan oleh arus interaksi dan kerja sama."
+      },
+      {
+        q: "5. Apa alasan utama mengapa bumi harus dibagi-bagi lewat konsep perwilayahan (regionalisasi)?",
+        options: [
+          "Memudahkan perencanaan pemerintah, meratakan pembangunan, dan menyederhanakan informasi peta",
+          "Membatasi warga agar tidak bisa bepergian ke luar kota",
+          "Menghapus keberadaan wilayah formal di seluruh pulau",
+          "Memusatkan seluruh anggaran belanja hanya di wilayah pesisir"
+        ],
+        ans: 0,
+        exp: "Tiga tujuan pokok perwilayahan: memudahkan perencanaan pemerintah, meratakan pembangunan agar tidak menumpuk di satu tempat, dan menyederhanakan informasi peta yang rumit."
+      }
+    ];
+
+    let currentQIdx = 0;
+    let totalScore = 0;
+
+    function renderQuiz() {
+      const q = quizQuestions[currentQIdx];
+      document.getElementById('quiz-q-title').innerText = q.q;
+      const optsContainer = document.getElementById('quiz-opts');
+      optsContainer.innerHTML = '';
+      document.getElementById('quiz-feedback').style.display = 'none';
+      document.getElementById('btn-quiz-next').style.display = 'none';
+
+      q.options.forEach((text, i) => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-option';
+        btn.innerHTML = `<span>⚪</span> <span>${text}</span>`;
+        btn.onclick = () => selectQuizAnswer(i, btn);
+        optsContainer.appendChild(btn);
+      });
+    }
+
+    function selectQuizAnswer(selectedIdx, btnEl) {
+      const q = quizQuestions[currentQIdx];
+      const buttons = document.querySelectorAll('.quiz-option');
+      buttons.forEach(b => b.disabled = true);
+
+      const fBox = document.getElementById('quiz-feedback');
+      fBox.style.display = 'block';
+
+      if (selectedIdx === q.ans) {
+        btnEl.classList.add('correct');
+        btnEl.querySelector('span').innerText = '✅';
+        totalScore += 20;
+        fBox.style.background = 'var(--c-lime-light)';
+        fBox.style.color = 'var(--c-darkgreen)';
+        fBox.innerHTML = `<strong>Benar Sekali!</strong> ${q.exp}`;
+      } else {
+        btnEl.classList.add('wrong');
+        btnEl.querySelector('span').innerText = '❌';
+        buttons[q.ans].classList.add('correct');
+        buttons[q.ans].querySelector('span').innerText = '✅';
+        fBox.style.background = 'var(--c-red-light)';
+        fBox.style.color = 'var(--c-red)';
+        fBox.innerHTML = `<strong>Jawaban Kurang Tepat.</strong> ${q.exp}`;
+      }
+
+      document.getElementById('quiz-points').innerText = `Skor: ${totalScore} / 100`;
+      document.getElementById('btn-quiz-next').style.display = 'inline-flex';
+    }
+
+    function goNextQuiz() {
+      if (currentQIdx < quizQuestions.length - 1) {
+        currentQIdx++;
+        renderQuiz();
+      } else {
+        document.getElementById('quiz-area').innerHTML = `
+          <div style="text-align: center; padding: 24px 10px;">
+            <div style="font-size: 2.5rem; margin-bottom: 8px;">🏆</div>
+            <h3 style="color: var(--c-purple); font-size: 1.35rem;">Kuis Modul 1 Selesai!</h3>
+            <p style="font-size: 1.1rem; margin-top: 8px;">Skor Akhir Kamu: <strong>${totalScore} / 100</strong></p>
+            <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 4px;">Selamat! Kamu telah menguasai konsep dasar wilayah dan perwilayahan.</p>
+          </div>
+        `;
+        document.getElementById('btn-quiz-next').style.display = 'none';
+      }
+    }
+
+    // Save Reflection
+    function saveRef() {
+      const q1 = document.getElementById('ref-q1').value;
+      const q2 = document.getElementById('ref-q2').value;
+      const q3 = document.getElementById('ref-q3').value;
+
+      if (!q1 || !q2 || !q3) {
+        alert('Mohon isi ketiga kolom refleksi (Mindful, Meaningful, Joyful) terlebih dahulu.');
+        return;
+      }
+
+      alert('🎉 Refleksi belajar kamu berhasil disimpan! Terus asah rasa ingin tahu keruanganmu.');
+    }
+
+    // Init onload
+    window.onload = () => {
+      refreshProgress();
+      renderQuiz();
+    };
+  </script>
+</body>
+</html>
