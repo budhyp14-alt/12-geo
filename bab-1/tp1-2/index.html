@@ -1,1 +1,450 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Geografi 12 IPS - Modul 2</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800;900&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --c-purple: #800080;
+      --c-blue: #0000FF;
+      --c-lime: #00FF00;
+      --c-yellow: #FFFF00;
+      --c-orange: #FFA500;
+      --c-red: #FF0000;
+      --c-darkgreen: #008000;
+      --bg-grad: linear-gradient(135deg, #38BDF8, #1D4ED8);
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    body {
+      background: var(--bg-grad);
+      background-attachment: fixed;
+      color: #333;
+      padding-bottom: 80px;
+      overflow-x: hidden;
+    }
+    
+    .app-header {
+      text-align: center;
+      padding: 40px 15px 30px;
+      color: white;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+      animation: slideDown 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+    .app-header h2 { font-size: 1.1rem; font-weight: 800; margin-bottom: 5px; color: var(--c-yellow); }
+    .app-header h3 { font-size: 1rem; margin-bottom: 5px; font-weight: 600; }
+    .app-header h4 { font-size: 1.4rem; font-weight: 900; margin-bottom: 5px; letter-spacing: 1px;}
+    .app-header h5 { font-size: 1rem; font-weight: 600; color: #DCFCE7; }
+    
+    /* PERBAIKAN NAVIGASI AGAR TOMBOL SELALU TERLIHAT SEMUA */
+    .nav-container {
+      max-width: 900px;
+      margin: 0 auto 20px;
+      padding: 0 15px;
+      display: flex;
+      flex-wrap: wrap; /* Membuat tombol turun ke baris baru jika tidak muat */
+      justify-content: center; /* Menengahkan posisi tombol */
+      gap: 10px;
+    }
+    .nav-btn {
+      padding: 10px 18px;
+      border-radius: 12px;
+      font-weight: 800;
+      border: none;
+      color: white;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: transform 0.2s, filter 0.2s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .nav-btn:hover, .nav-btn.active { transform: scale(1.05); filter: brightness(1.2); }
+    
+    .btn-p { background: var(--c-purple); }
+    .btn-b { background: var(--c-blue); }
+    .btn-l { background: var(--c-lime); color: black; }
+    .btn-y { background: var(--c-yellow); color: black; }
+    .btn-o { background: var(--c-orange); color: black; }
+    .btn-r { background: var(--c-red); }
+    .btn-g { background: var(--c-darkgreen); }
+    
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 15px;
+    }
+    .content-card {
+      background: white;
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      margin-bottom: 25px;
+      animation: fadeIn 0.6s ease;
+      display: none;
+      border-top: 8px solid white;
+    }
+    .content-card.active { display: block; }
+    
+    .content-title {
+      font-size: 1.4rem;
+      font-weight: 900;
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--c-blue);
+    }
+    p, li { line-height: 1.7; margin-bottom: 12px; font-size: 0.95rem; }
+    ul { margin-left: 20px; }
+    strong { font-weight: 800; color: #111; }
+    
+    .diagram-box {
+      background: #111827;
+      color: #A7F3D0;
+      padding: 20px;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 0.85rem;
+      overflow-x: auto;
+      white-space: pre;
+      line-height: 1.6;
+      border-left: 5px solid var(--c-lime);
+      margin: 15px 0;
+      box-shadow: inset 0 4px 6px rgba(0,0,0,0.3);
+    }
+    
+    .quiz-intro { text-align: center; padding: 20px 0; }
+    .quiz-input {
+      width: 100%;
+      padding: 12px 15px;
+      margin: 10px 0;
+      border: 2px solid var(--c-blue);
+      border-radius: 10px;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+    .quiz-btn {
+      background: var(--c-red);
+      color: white;
+      border: none;
+      padding: 14px 25px;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 900;
+      cursor: pointer;
+      width: 100%;
+      margin-top: 10px;
+      transition: all 0.2s;
+    }
+    .quiz-btn:hover { background: #990000; transform: translateY(-2px); }
+    
+    .question-block { display: none; animation: slideIn 0.3s forwards; }
+    .question-block.active { display: block; }
+    .option-btn {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background: #F1F5F9;
+      border: 2px solid #CBD5E1;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .option-btn:hover { border-color: var(--c-blue); background: #EFF6FF; }
+    .option-btn.selected { border-color: var(--c-orange); background: var(--c-orange); color: white; }
+    
+    @keyframes slideDown { from { transform: translateY(-30px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+    @keyframes fadeIn { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    @keyframes slideIn { from { transform: translateX(20px); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+    
+    .icon-anim { display: inline-block; animation: pulse 2s infinite; }
+  </style>
+</head>
+<body>
 
+  <header class="app-header">
+    <h2 style="color: var(--c-yellow);">GEOGRAFI KELAS 12 IPS</h2>
+    <h3 id="current-date">Hari, Tanggal</h3>
+    <h4>SMA ADVENT BATAM</h4>
+    <h5>Guru : Ir. Budhy Prasetyo</h5>
+  </header>
+
+  <div class="nav-container">
+    <button class="nav-btn btn-p active" onclick="showTab('tab1', this)">🎯 Pemantik</button>
+    <button class="nav-btn btn-b" onclick="showTab('tab2', this)">🏙️ Pusat Pertumbuhan</button>
+    <button class="nav-btn btn-l" onclick="showTab('tab3', this)">⚙️ Teori Kutub</button>
+    <button class="nav-btn btn-y" onclick="showTab('tab4', this)">🔑 Faktor Penentu</button>
+    <button class="nav-btn btn-o" onclick="showTab('tab5', this)">⚖️ Dampak</button>
+    <button class="nav-btn btn-r" onclick="showTab('tab6', this)">📝 Kuis Evaluasi</button>
+  </div>
+
+  <div class="container">
+    <!-- TAB 1: PEMANTIK -->
+    <div id="tab1" class="content-card active" style="border-top-color: var(--c-purple);">
+      <h2 class="content-title" style="color: var(--c-purple);"><span class="icon-anim">🎯</span> MATERI PEMBELAJARAN MODUL 2</h2>
+      <h3 style="margin-bottom: 10px; font-weight: 800; color: #111;">TEORI PENGEMBANGAN WILAYAH DAN PUSAT PERTUMBUHAN</h3>
+      <div style="background: #F3E8FF; padding: 15px; border-left: 5px solid var(--c-purple); border-radius: 8px; margin-bottom: 20px;">
+        <strong style="color: var(--c-purple);">Tujuan Pembelajaran:</strong>
+        <p>Siswa mampu mengidentifikasi teori kutub pertumbuhan (growth pole), mengenali faktor pembentuknya, serta menganalisis dampak positif (spread effect) dan dampak negatif (backwash effect) bagi kawasan di sekitarnya.</p>
+      </div>
+      
+      <div style="background: #FFEDD5; padding: 15px; border-left: 5px solid var(--c-orange); border-radius: 8px;">
+        <strong style="color: var(--c-orange);">Pertanyaan Pemantik:</strong>
+        <ul style="margin-top: 10px;">
+          <li>Mengapa gedung bioskop, universitas terkemuka, dan rumah sakit megah selalu terkumpul di satu kota tertentu, bukan tersebar rata di pelosok desa?</li>
+          <li>Jika sebuah kota tumbuh menjadi sangat kaya dan modern, apakah desa-desa di sekelilingnya pasti ikut makmur, atau justru malah tambah rugi?</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TAB 2: MENGAPA DIMULAI DARI SATU TITIK -->
+    <div id="tab2" class="content-card" style="border-top-color: var(--c-blue);">
+      <h2 class="content-title" style="color: var(--c-blue);"><span class="icon-anim">📍</span> 1. Mengapa Pembangunan Dimulai dari Satu Titik?</h2>
+      <p>Membangun seluruh pelosok negeri secara serentak membutuhkan dana dan tenaga yang teramat besar. Oleh karena itu, para ahli geografi dan perencana kota menggunakan strategi: <strong>membangun titik-titik unggulan terlebih dahulu agar menjadi mesin penggerak bagi wilayah di sekitarnya.</strong></p>
+      <div style="background: #EFF6FF; padding: 15px; border-radius: 12px; border: 2px dashed var(--c-blue); text-align: center; margin-top: 15px;">
+        <p style="margin: 0; font-size: 1.1rem; font-weight: 800; color: var(--c-blue);">Titik unggulan yang tumbuh sangat cepat ini disebut sebagai Pusat Pertumbuhan (Growth Pole).</p>
+      </div>
+    </div>
+
+    <!-- TAB 3: TEORI KUTUB -->
+    <div id="tab3" class="content-card" style="border-top-color: var(--c-lime);">
+      <h2 class="content-title" style="color: var(--c-darkgreen);"><span class="icon-anim">⚙️</span> 2. Teori Kutub Pertumbuhan (Growth Poles Theory)</h2>
+      <p>Teori ini pertama kali dicetuskan oleh ahli ekonomi bernama <strong>François Perroux</strong>.</p>
+      <p>Inti ajaran teori ini menyatakan bahwa: <strong>pembangunan tidak terjadi di semua tempat secara bersamaan, melainkan muncul di titik-titik kutub tertentu dengan kecepatan yang luar biasa.</strong></p>
+      <p>Pusat pertumbuhan ini didorong oleh keberadaan <strong>Industri Unggulan (Leading Industry)</strong>, yaitu pabrik atau usaha besar yang mampu menarik banyak usaha lain untuk bermunculan di dekatnya.</p>
+      
+      <div class="diagram-box">                    ┌──> Membuka 5.000 Lowongan Kerja Baru
+PABRIK PERAKITAN ───┼──> Mengundang Warung Makan & Kos-kosan Sekitar
+MOBIL BESAR         ├──> Memicu Pembangunan Jalan Tol & Pelabuhan
+                    └──> Menumbuhkan Pabrik Pemasok Kaca & Ban Mobil</div>
+    </div>
+
+    <!-- TAB 4: FAKTOR PENENTU -->
+    <div id="tab4" class="content-card" style="border-top-color: var(--c-yellow);">
+      <h2 class="content-title" style="color: #A16207;"><span class="icon-anim">🔑</span> 3. Faktor Penentu Terbentuknya Pusat Pertumbuhan</h2>
+      <p>Suatu wilayah dapat berkembang menjadi pusat pertumbuhan utama jika memiliki faktor pendukung berikut:</p>
+      <ul>
+        <li><strong>Letak Geografis Strategis:</strong> Berada di tepi jalur pelayaran internasional atau di persimpangan jalur jalan tol utama.</li>
+        <li><strong>Kekayaan Sumber Daya Alam:</strong> Memiliki cadangan minyak bumi, gas alam, tambang nikel, atau lahan pertanian yang sangat subur.</li>
+        <li><strong>Kelengkapan Jalur Transportasi:</strong> Memiliki pelabuhan laut dalam, bandara internasional, dan rel kereta api logistik.</li>
+        <li><strong>Kualitas Tenaga Kerja (SDM):</strong> Masyarakatnya memiliki keterampilan kerja yang tinggi, terdidik, dan menguasai teknologi modern.</li>
+      </ul>
+    </div>
+
+    <!-- TAB 5: SPREAD & BACKWASH -->
+    <div id="tab5" class="content-card" style="border-top-color: var(--c-orange);">
+      <h2 class="content-title" style="color: var(--c-orange);"><span class="icon-anim">⚖️</span> 4. Dua Arah Dampak Kota terhadap Desa di Sekitarnya</h2>
+      <p>Kemajuan pesat pada sebuah pusat pertumbuhan menghasilkan dua dampak yang bertolak belakang terhadap kawasan penyangga di sekitarnya:</p>
+      
+      <div class="diagram-box" style="border-left-color: var(--c-orange);">                          ┌─── DAMPAK POSITIF (Spread Effect)   : Rezeki mengalir ke desa
+KEMAJUAN KOTA METROPOLITAN ┤
+                          └─── DAMPAK NEGATIF (Backwash Effect) : Sumber daya desa disedot</div>
+
+      <div style="background: #DCFCE7; padding: 15px; border-left: 5px solid var(--c-darkgreen); border-radius: 8px; margin-bottom: 15px;">
+        <h4 style="color: var(--c-darkgreen); margin-bottom: 8px;">A. Dampak Positif (Spread Effect / Penjalaran Kemakmuran)</h4>
+        <p>Kemajuan ekonomi di pusat kota ikut menetes dan mensejahterakan desa di sekitarnya:</p>
+        <ul>
+          <li><strong>Pasar Hasil Bumi Terbuka Luas:</strong> Petani dan peternak di desa bisa menjual sayur, beras, dan susu ke restoran kota dengan harga yang menguntungkan.</li>
+          <li><strong>Peningkatan Jalan dan Sarana:</strong> Pemerintah membangun jalan aspal mulus dan jaringan listrik ke desa agar pengiriman barang menuju kota berjalan lancar.</li>
+          <li><strong>Terbukanya Lapangan Kerja:</strong> Warga desa mendapatkan kesempatan bekerja di sektor formal perkotaan.</li>
+        </ul>
+      </div>
+
+      <div style="background: #FEE2E2; padding: 15px; border-left: 5px solid var(--c-red); border-radius: 8px;">
+        <h4 style="color: var(--c-red); margin-bottom: 8px;">B. Dampak Negatif (Backwash Effect / Penyedotan Sumber Daya)</h4>
+        <p>Kemajuan kota justru merugikan dan melemahkan potensi desa di sekitarnya:</p>
+        <ul>
+          <li><strong>Keluarnya Tenaga Terampil Desa (Brain Drain):</strong> Pemuda-pemuda desa yang pintar dan berpendidikan tinggi memilih pindah selamanya ke kota besar, sehingga desa kehilangan calon pemimpin dan tenaga produktif.</li>
+          <li><strong>Penyedotan Sumber Daya Air dan Tanah:</strong> Pasokan air bersih dari pegunungan desa disedot habis menggunakan pipa-pipa raksasa untuk menghidupi industri kota, menyebabkan sumur warga desa kering.</li>
+          <li><strong>Alih Fungsi Lahan Pertanian Subur:</strong> Sawah produktif di desa dibeli murah oleh investor luar untuk dijadikan gudang semen atau kawasan penimbunan limbah industri.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- TAB 6: KUIS EVALUASI -->
+    <div id="tab6" class="content-card" style="border-top-color: var(--c-red);">
+      <h2 class="content-title" style="color: var(--c-red);"><span class="icon-anim">📝</span> Kuis Evaluasi Interaktif (10 Soal)</h2>
+      
+      <div id="quiz-start" class="quiz-intro">
+        <h3 style="margin-bottom: 15px;">Silakan Masukkan Data Anda</h3>
+        <input type="text" id="studentName" class="quiz-input" placeholder="Nama Lengkap" required>
+        <input type="text" id="studentClass" class="quiz-input" placeholder="Kelas (Cth: 12 IPS 1)" required>
+        <button class="quiz-btn" onclick="startQuiz()">MULAI KUIS SEKARANG</button>
+      </div>
+
+      <div id="quiz-core" style="display: none;">
+        <div id="q-container"></div>
+        <button id="next-btn" class="quiz-btn" style="display:none; background: var(--c-blue);" onclick="nextQuestion()">LANJUT SOAL BERIKUTNYA</button>
+        <button id="submit-btn" class="quiz-btn" style="display:none; background: var(--c-lime); color: black;" onclick="submitQuiz()">KIRIM NILAI KE GURU</button>
+      </div>
+      
+      <div id="quiz-result" class="quiz-intro" style="display:none;">
+        <h2 style="font-size: 2rem; color: var(--c-darkgreen); margin-bottom: 10px;">KUIS SELESAI!</h2>
+        <h1 id="score-display" style="font-size: 3rem; color: var(--c-purple); margin-bottom: 15px;">0/100</h1>
+        <p id="feedback-display" style="font-size: 1.1rem; font-weight: 700; color: var(--c-orange);"></p>
+        <p style="margin-top: 15px; font-size: 0.9rem; color: #666;">*Nilai Anda telah otomatis terekap ke dalam sistem (Google Sheets).</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('current-date').innerText = new Date().toLocaleDateString('id-ID', dateOptions);
+
+    function showTab(tabId, btnElement) {
+      document.querySelectorAll('.content-card').forEach(card => card.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+      
+      document.getElementById(tabId).classList.add('active');
+      btnElement.classList.add('active');
+      window.scrollTo({ top: 150, behavior: 'smooth' });
+    }
+
+    const questions = [
+      {
+        q: "1. Siapakah ahli ekonomi yang pertama kali mencetuskan Teori Kutub Pertumbuhan (Growth Poles Theory)?",
+        opts: ["Adam Smith", "François Perroux", "Karl Marx", "Thomas Malthus", "David Ricardo"],
+        ans: 1
+      },
+      {
+        q: "2. Titik unggulan yang tumbuh sangat cepat dan menjadi mesin penggerak bagi wilayah sekitarnya disebut sebagai...",
+        opts: ["Pusat Pertumbuhan (Growth Pole)", "Hinterland", "Wilayah Formal", "Zona Rural", "Perkotaan Mandiri"],
+        ans: 0
+      },
+      {
+        q: "3. Inti ajaran Teori Kutub Pertumbuhan menyatakan bahwa pembangunan...",
+        opts: ["Terjadi secara serentak di semua tempat", "Terpusat hanya di pedesaan", "Muncul di titik-titik kutub tertentu dengan kecepatan luar biasa", "Menghindari kawasan industri besar", "Harus merata tanpa adanya pusat"],
+        ans: 2
+      },
+      {
+        q: "4. Keberadaan pabrik atau usaha besar yang mampu menarik banyak usaha lain bermunculan di dekatnya disebut dengan istilah...",
+        opts: ["Basic Industry", "Market Industry", "Leading Industry", "Spread Industry", "Backwash Industry"],
+        ans: 2
+      },
+      {
+        q: "5. Berikut ini yang BUKAN merupakan faktor penentu suatu wilayah dapat berkembang menjadi pusat pertumbuhan adalah...",
+        opts: ["Letak Geografis Strategis", "Kekayaan Sumber Daya Alam", "Kelengkapan Jalur Transportasi", "Kualitas Tenaga Kerja (SDM) yang rendah", "Masyarakat terdidik dan menguasai teknologi"],
+        ans: 3
+      },
+      {
+        q: "6. Dampak positif dari kemajuan pesat sebuah pusat kota yang ikut menetes dan mensejahterakan desa di sekitarnya dikenal dengan istilah...",
+        opts: ["Backwash Effect", "Green Effect", "Brain Drain", "Spread Effect", "Nodal Effect"],
+        ans: 3
+      },
+      {
+        q: "7. Kemajuan kota yang justru merugikan dan melemahkan potensi desa di sekitarnya disebut sebagai...",
+        opts: ["Spread Effect", "Backwash Effect", "Multiplier Effect", "Trickle Down Effect", "Growth Effect"],
+        ans: 1
+      },
+      {
+        q: "8. Keluarnya tenaga terampil dari desa (pemuda pintar dan berpendidikan tinggi) yang memilih pindah selamanya ke kota besar disebut fenomena...",
+        opts: ["Urban Sprawl", "Rural Decay", "Brain Drain", "Spread Effect", "Leading Industry"],
+        ans: 2
+      },
+      {
+        q: "9. Salah satu contoh nyata dari fenomena Spread Effect (Penjalaran Kemakmuran) bagi desa adalah...",
+        opts: ["Sumur warga desa menjadi kering karena industri", "Sawah produktif dibeli murah oleh investor untuk pabrik", "Petani desa bisa menjual hasil bumi dengan harga menguntungkan ke kota", "Pemuda desa yang pintar pindah ke kota besar", "Tersedotnya sumber daya alam desa ke kota"],
+        ans: 2
+      },
+      {
+        q: "10. Alih fungsi lahan pertanian subur di desa yang dibeli oleh investor luar untuk dijadikan gudang semen merupakan contoh nyata dari dampak...",
+        opts: ["Positif kemajuan kota", "Spread Effect", "Backwash Effect", "Peningkatan sarana desa", "Peningkatan SDM desa"],
+        ans: 2
+      }
+    ];
+
+    let currentQ = 0;
+    let score = 0;
+    let answers = new Array(questions.length).fill(null);
+    let sName = "";
+    let sClass = "";
+
+    function startQuiz() {
+      sName = document.getElementById('studentName').value.trim();
+      sClass = document.getElementById('studentClass').value.trim();
+      if(sName === "" || sClass === "") {
+        alert("Mohon masukkan Nama dan Kelas Anda dengan lengkap.");
+        return;
+      }
+      document.getElementById('quiz-start').style.display = 'none';
+      document.getElementById('quiz-core').style.display = 'block';
+      renderQuestion();
+    }
+
+    function renderQuestion() {
+      const q = questions[currentQ];
+      const optLabels = ["A", "B", "C", "D", "E"];
+      let html = `<div class="question-block active"><h3 style="color:var(--c-blue); margin-bottom:15px;">${q.q}</h3>`;
+      q.opts.forEach((opt, i) => {
+        html += `<button class="option-btn" onclick="selectOption(${i}, this)"><strong>${optLabels[i]}.</strong> ${opt}</button>`;
+      });
+      html += `</div>`;
+      document.getElementById('q-container').innerHTML = html;
+      document.getElementById('next-btn').style.display = 'none';
+      document.getElementById('submit-btn').style.display = 'none';
+    }
+
+    window.selectOption = function(idx, btn) {
+      document.querySelectorAll('.option-btn').forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      answers[currentQ] = idx;
+      
+      if(currentQ < questions.length - 1) {
+        document.getElementById('next-btn').style.display = 'block';
+      } else {
+        document.getElementById('submit-btn').style.display = 'block';
+      }
+    }
+
+    window.nextQuestion = function() {
+      currentQ++;
+      renderQuestion();
+    }
+
+    window.submitQuiz = function() {
+      score = 0;
+      answers.forEach((ans, i) => {
+        if(ans === questions[i].ans) score += 10;
+      });
+      
+      let ket = "";
+      if (score >= 80) ket = "Tuntas & Sangat Baik";
+      else if (score >= 60) ket = "Cukup";
+      else ket = "Perlu Remedial";
+
+      document.getElementById('quiz-core').style.display = 'none';
+      document.getElementById('quiz-result').style.display = 'block';
+      document.getElementById('score-display').innerText = score;
+      document.getElementById('feedback-display').innerText = "Status: " + ket;
+
+      const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbwByIL3gJhgrIxRa-beGUnnXck4xXnZ98D0yoOR8u8rGyE26HhlXgAE2-brjFJHvG0D/exec"; 
+      
+      fetch(WEB_APP_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          nama: sName,
+          kelas: sClass,
+          nilai: score,
+          keterangan: ket
+        })
+      }).then(() => console.log('Data terkirim ke Google Sheets')).catch(e => console.error(e));
+    }
+  </script>
+</body>
+</html>
