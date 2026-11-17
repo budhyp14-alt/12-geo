@@ -1,1 +1,611 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CBT Geografi - SMA Advent Batam</title>
+    <style>
+        /* Desain Modern Minimalis, Responsif, Flat (Tanpa Bayangan) & Anti-Copy */
+        :root {
+            --purple: #800080; --blue: #0000FF; --lime: #00FF00; 
+            --yellow: #FFFF00; --orange: #FFA500; --red: #FF0000; --darkgreen: #008000;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6; color: #333;
+            margin: 0; padding: 15px;
+            display: flex; flex-direction: column; align-items: center;
+            user-select: none; 
+            -webkit-user-select: none;
+        }
+        
+        input, textarea { user-select: auto; -webkit-user-select: auto; }
 
+        .container {
+            width: 100%; max-width: 900px;
+            background: white; border-radius: 12px;
+            border: 1px solid #ddd;
+            padding: 30px; box-sizing: border-box;
+            margin-bottom: 20px;
+        }
+        
+        /* HEADER STYLES */
+        .header-kop { text-align: center; border-bottom: 3px solid var(--blue); padding-bottom: 15px; margin-bottom: 25px; }
+        .header-kop h2 { margin: 0 0 5px 0; color: #333; font-size: 24px; font-weight: 800; }
+        .header-kop h3 { margin: 0 0 5px 0; color: #555; font-size: 18px; }
+        .header-kop h4 { margin: 15px 0 5px 0; color: var(--blue); font-size: 20px; }
+        .header-kop h5 { margin: 5px 0 5px 0; color: var(--purple); font-size: 16px; }
+        .header-kop p.guru { margin: 10px 0 0 0; color: var(--darkgreen); font-weight: bold; font-size: 16px; }
+        
+        /* Animasi Berputar 360 Derajat Horizontal */
+        @keyframes putarMenu {
+            0%   { transform: perspective(1000px) rotateY(0deg); }
+            33%  { transform: perspective(1000px) rotateY(360deg); }
+            50%  { transform: perspective(1000px) rotateY(360deg); }
+            83%  { transform: perspective(1000px) rotateY(0deg); }
+            100% { transform: perspective(1000px) rotateY(0deg); }
+        }
+        
+        .menu-animasi {
+            display: flex; justify-content: center; flex-wrap: wrap; gap: 10px;
+            margin: 20px 0 30px 0;
+        }
+        
+        /* Wrapper Statis agar Klik 100% Berhasil */
+        .menu-wrapper {
+            cursor: pointer;
+            display: inline-block;
+        }
+
+        .btn-menu {
+            padding: 10px 15px; border-radius: 8px; font-weight: bold;
+            border: 1px solid rgba(0,0,0,0.1); font-size: 14px;
+            animation: putarMenu 12s linear infinite;
+            animation-play-state: paused;
+        }
+
+        .bg-purple { background: var(--purple); color: white; }
+        .bg-blue { background: var(--blue); color: white; }
+        .bg-lime { background: var(--lime); color: black; }
+        .bg-yellow { background: var(--yellow); color: black; }
+        .bg-orange { background: var(--orange); color: white; }
+        .bg-red { background: var(--red); color: white; }
+        .bg-darkgreen { background: var(--darkgreen); color: white; }
+
+        /* Styling Data Diri */
+        .input-group { margin-bottom: 20px; }
+        label { font-weight: bold; display: block; margin-bottom: 8px; }
+        input[type="text"], select, textarea {
+            width: 100%; padding: 12px; border: 2px solid #ddd;
+            border-radius: 8px; box-sizing: border-box; font-size: 16px;
+        }
+        input[type="text"]:focus, select:focus, textarea:focus { border-color: var(--blue); outline: none; }
+        
+        .btn-submit {
+            width: 100%; padding: 15px; background-color: var(--blue);
+            color: white; font-size: 18px; font-weight: bold;
+            border: none; border-radius: 8px; cursor: pointer;
+            margin-top: 20px; transition: background 0.3s;
+        }
+        .btn-submit:hover { background-color: #0000cc; }
+        
+        /* Modul Materi & Grafis Beranimasi */
+        #materi-pembelajaran { background: #ffffff; padding: 25px; border-radius: 12px; border: 2px solid var(--blue); margin-bottom: 30px; line-height: 1.8; display: none; }
+        .materi-section { margin-bottom: 30px; padding-bottom: 20px; border-bottom: 1px dashed #ccc; }
+        .materi-section:last-child { border-bottom: none; }
+        .materi-judul { color: var(--blue); border-left: 5px solid var(--orange); padding-left: 10px; }
+        .box-contoh { background: #fff3e0; padding: 15px; border-radius: 8px; margin-top: 15px; border-left: 5px solid var(--orange); font-style: italic; }
+        
+        /* CSS Animasi Ilustrasi */
+        .anim-pilar { display: flex; justify-content: center; align-items: center; gap: 15px; margin: 20px 0; }
+        .lingkaran { width: 80px; height: 80px; border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 12px; text-align: center; animation: pulsePilar 2s infinite alternate; }
+        .l-eko { background: var(--blue); } .l-sos { background: var(--orange); animation-delay: 0.5s; } .l-ling { background: var(--darkgreen); animation-delay: 1s; }
+        @keyframes pulsePilar { 0% { transform: scale(1); } 100% { transform: scale(1.1); } }
+
+        .anim-smile-box { display: flex; justify-content: center; margin: 20px 0; }
+        .smiley { width: 100px; height: 100px; background: var(--yellow); border-radius: 50%; position: relative; animation: bounceSmile 2s infinite ease-in-out; border: 3px solid #f39c12; }
+        .eye { width: 15px; height: 15px; background: #333; border-radius: 50%; position: absolute; top: 30px; } .eye.left { left: 25px; } .eye.right { right: 25px; }
+        .mouth { width: 50px; height: 25px; border-bottom: 5px solid #333; border-radius: 0 0 50px 50px; position: absolute; bottom: 20px; left: 25px; }
+        @keyframes bounceSmile { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-15px) rotate(5deg); } }
+
+        .anim-kota { width: 100%; max-width: 400px; height: 120px; background: #87CEEB; margin: 20px auto; position: relative; border-radius: 8px; overflow: hidden; border: 2px solid #ddd; }
+        .taman { position: absolute; bottom: 0; width: 100%; height: 50px; background: var(--lime); }
+        .jalan { position: absolute; bottom: 10px; width: 100%; height: 20px; background: #555; }
+        .garis-jalan { position: absolute; top: 8px; width: 100%; height: 4px; border-top: 4px dashed white; }
+        .mobil { width: 40px; height: 20px; background: var(--red); border-radius: 5px 5px 0 0; position: absolute; bottom: 12px; left: -50px; animation: jalanMobil 4s linear infinite; }
+        .awan { width: 60px; height: 20px; background: white; border-radius: 20px; position: absolute; top: 10px; opacity: 0.8; animation: gerakAwan 10s linear infinite; }
+        @keyframes jalanMobil { 0% { left: -50px; } 100% { left: 100%; } } @keyframes gerakAwan { 0% { left: -60px; } 100% { left: 100%; } }
+
+        /* Modul Soal */
+        .card-soal { background: #fdfdfd; border: 1px solid #eee; border-left: 5px solid var(--purple); padding: 15px; margin-bottom: 15px; border-radius: 8px; }
+        .radio-label { display: block; padding: 10px; border: 1px solid #ddd; border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: background 0.2s; }
+        .radio-label:hover { background: #f1f1f1; } input[type="radio"] { margin-right: 10px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; } th, td { padding: 12px; border: 1px solid #ddd; text-align: center; } th { background: var(--blue); color: white; } tr:nth-child(even) { background-color: #f9f9f9; }
+        
+        #quiz-section, #leaderboard-section { display: none; } #loading { text-align: center; font-weight: bold; color: var(--orange); display: none; }
+
+        /* KOTAK RINCIAN SKOR */
+        .score-box { background: #e8f4f8; padding: 20px; border-radius: 12px; border: 2px solid var(--blue); margin-bottom: 20px; text-align: center; }
+        .score-breakdown { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 15px; }
+        .score-item { background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid #ccc; font-weight: bold; }
+        .score-item span { color: var(--blue); font-size: 18px; }
+
+        /* OVERLAY ANTI CURANG (CBT MODE) */
+        #cheat-warning {
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(255, 0, 0, 0.95); color: white; z-index: 9999;
+            flex-direction: column; justify-content: center; align-items: center; text-align: center;
+        }
+        #cheat-warning h1 { color: white; font-size: 40px; margin-bottom: 10px; }
+        #cheat-warning p { font-size: 20px; max-width: 600px; padding: 0 20px; }
+        .btn-kembali-ujian { margin-top: 20px; padding: 15px 30px; font-size: 20px; background: black; color: white; border: none; border-radius: 8px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+<!-- Peringatan Anti Curang dengan Kunci Guru -->
+<div id="cheat-warning">
+    <h1>⚠️ PELANGGARAN UJIAN ⚠️</h1>
+    <p>Sistem mendeteksi Anda mencoba keluar dari aplikasi (Alt+Tab/Minimize). Ujian Anda <b>DIKUNCI SEMENTARA</b>.</p>
+    <p>Silakan panggil Guru Pengawas untuk memasukkan Token/Password agar Anda bisa melanjutkan ujian!</p>
+    <button class="btn-kembali-ujian" onclick="kembaliKeUjian()">Masukkan Password Guru</button>
+</div>
+
+<div class="container" id="main-container">
+    
+    <div class="header-kop">
+        <h2>SMA ADVENT BATAM</h2>
+        <h3>KELAS 12 IPS</h3>
+        <h4>BAB 1 : Pengembangan Wilayah, Tata Ruang, dan Pengaruhnya terhadap Kebahagiaan</h4>
+        <h5>SUB BAB 1 : PENGARUH TATA RUANG TERHADAP INDEKS KEBAHAGIAAN PENDUDUK</h5>
+        <p class="guru">GURU : Ir. Budhy Prasetyo</p>
+    </div>
+
+    <!-- Menu Utama Animasi dengan Wrapper Pembantu Klik -->
+    <div class="menu-animasi">
+        <div class="menu-wrapper" onclick="toggleMateri()">
+            <div class="btn-menu bg-purple">Materi Lengkap</div>
+        </div>
+        <div class="menu-wrapper" onclick="scrollToSection('lkpd-judul')">
+            <div class="btn-menu bg-blue">LKPD</div>
+        </div>
+        <div class="menu-wrapper" onclick="scrollToSection('memadukan-judul')">
+            <div class="btn-menu bg-lime">Memadukan</div>
+        </div>
+        <div class="menu-wrapper" onclick="scrollToSection('pg-judul')">
+            <div class="btn-menu bg-yellow">Pilihan Ganda</div>
+        </div>
+        <div class="menu-wrapper" onclick="scrollToSection('esai-judul')">
+            <div class="btn-menu bg-orange">Esai</div>
+        </div>
+        <div class="menu-wrapper" onclick="lihatSkor()">
+            <div class="btn-menu bg-red">Skor (Rekapan)</div>
+        </div>
+        <div class="menu-wrapper" onclick="showAlert('Menu Guru khusus untuk melihat kunci jawaban dan rekapan utuh di Google Sheets.')">
+            <div class="btn-menu bg-darkgreen">Guru</div>
+        </div>
+    </div>
+
+    <!-- MATERI PEMBELAJARAN TOTAL -->
+    <div id="materi-pembelajaran">
+        <div style="background: var(--blue); color: white; padding: 15px; border-radius: 8px; margin-bottom: 25px;">
+            <h3 style="margin-top:0; color:var(--yellow); text-align:left;">🎯 Tujuan Pembelajaran</h3>
+            <p style="margin-bottom:0;">Melalui modul interaktif ini, siswa mampu memahami secara mendalam konsep <b>Pembangunan Berkelanjutan</b>, menyebutkan 3 dimensi pengukur <b>Indeks Kebahagiaan</b>, serta menganalisis bagaimana <b>Tata Ruang Kota</b> memengaruhi kualitas mental dan kebahagiaan penduduknya.</p>
+        </div>
+
+        <div style="background: #ffebee; border-left: 5px solid var(--red); padding: 15px; border-radius: 8px; margin-bottom: 25px;">
+            <h3 style="margin-top:0; color:var(--red); text-align:left;">🤔 Pertanyaan Pemantik</h3>
+            <p style="margin-bottom:0;"><i>Pernahkah kamu merasa sangat bad-mood dan stres saat terjebak macet berjam-jam sepulang sekolah? Atau sebaliknya, merasa sangat tenang saat duduk sore di taman kota yang banyak pohon rindang? Kira-kira, apakah cara pemerintah menata letak jalan, pabrik, dan taman bisa menentukan seberapa bahagia warganya? Mari kita cari tahu!</i></p>
+        </div>
+
+        <div class="materi-section">
+            <h2 class="materi-judul">1. Paradigma Pembangunan Berkelanjutan</h2>
+            <p>Paradigma adalah "cara pandang". Di masa lalu, negara-negara membangun wilayahnya hanya untuk mengejar keuntungan ekonomi semata. Hutan ditebang habis, pabrik berasap tebal dibangun di mana-mana, yang penting negara jadi kaya. Namun, hal itu justru membawa bencana di kemudian hari berupa banjir, polusi udara parah, dan kemiskinan warga lokal.</p>
+            <p>Oleh karena itu, lahirlah konsep <b>Pembangunan Berkelanjutan (Sustainable Development)</b>. Artinya: Kita membangun dan memanfaatkan alam untuk kebutuhan hari ini, <b>tanpa</b> merampas hak anak-cucu kita untuk menikmatinya di masa depan.</p>
+            <p>Konsep ini bertumpu pada keseimbangan <b>3 Pilar Utama</b>:</p>
+            <div class="anim-pilar">
+                <div class="lingkaran l-eko">Pilar<br>Ekonomi</div>
+                <div class="lingkaran l-sos">Pilar<br>Sosial</div>
+                <div class="lingkaran l-ling">Pilar<br>Lingkungan</div>
+            </div>
+            <ul>
+                <li><b>Pilar Ekonomi:</b> Pembangunan harus menciptakan lapangan kerja, usaha baru, dan menekan angka kemiskinan.</li>
+                <li><b>Pilar Sosial:</b> Pembangunan harus berpihak pada semua golongan (adil), tidak pandang bulu, serta meningkatkan kualitas pendidikan dan kesehatan masyarakat.</li>
+                <li><b>Pilar Lingkungan:</b> Pembangunan mutlak harus menjaga kelestarian alam, tidak mencemari udara, laut, sungai, dan menjaga ketersediaan air tanah.</li>
+            </ul>
+            <div class="box-contoh">
+                <b>Contoh Konkret:</b> Pemko Batam mengizinkan pembangunan pabrik perakitan elektronik baru. Syaratnya: (1) Pabrik mendatangkan uang dan investasi (<i>Ekonomi</i>), (2) Pabrik wajib mengutamakan perekrutan warga lokal sekitar Batam agar tidak menganggur (<i>Sosial</i>), dan (3) Pabrik wajib memiliki mesin penyaring asap dan filter limbah cair yang canggih agar laut Batam tidak beracun (<i>Lingkungan</i>). Ketiganya harus jalan bersamaan!
+            </div>
+        </div>
+
+        <div class="materi-section">
+            <h2 class="materi-judul">2. Apa itu Indeks Kebahagiaan?</h2>
+            <p>Jika dulu negara yang hebat adalah negara yang kaya raya uangnya (PDB / Produk Domestik Bruto tinggi), kini dunia menyadari bahwa uang banyak tidak ada gunanya jika warganya hidup penuh tekanan, saling bermusuhan, dan sakit-sakitan.</p>
+            <p>Muncullah ukuran baru bernama <b>Indeks Kebahagiaan (Happiness Index)</b>. Ini adalah angka resmi yang digunakan untuk melihat apakah kebijakan pemerintah sudah benar-benar menyejahterakan jiwa dan raga masyarakatnya.</p>
+            <div class="anim-smile-box">
+                <div class="smiley">
+                    <div class="eye left"></div><div class="eye right"></div><div class="mouth"></div>
+                </div>
+            </div>
+            <p>Di Indonesia, <b>Badan Pusat Statistik (BPS)</b> mengukur Indeks Kebahagiaan penduduk berdasarkan 3 Dimensi:</p>
+            <ol>
+                <li><b>Dimensi Kepuasan Hidup (Life Satisfaction):</b> Mengukur kepuasan warga secara fisik dan nyata. Misalnya: Apakah penghasilannya cukup? Apakah kondisi rumahnya layak (tidak bocor)? Apakah mudah mendapat akses ke rumah sakit dan sekolah?</li>
+                <li><b>Dimensi Perasaan (Affect):</b> Berkaitan dengan emosi harian. Mengukur seberapa sering warga merasa gembira dan tenang, dibandingkan dengan perasaan tertekan, cemas, stres, atau marah akibat rutinitas sehari-hari.</li>
+                <li><b>Dimensi Makna Hidup (Eudaimonia):</b> Berkaitan dengan tujuan hidup. Mengukur apakah warga merasa hidupnya mandiri, berguna bagi orang lain, memiliki tujuan jelas di masa depan, serta rukun hidup bertetangga (interaksi sosial).</li>
+            </ol>
+            <div class="box-contoh">
+                <b>Contoh Konkret:</b> Pak Budi gajinya pas-pasan, tapi ia memiliki keluarga yang rukun (Kepuasan Hidup). Setiap pagi perjalanannya ke kantor lancar tanpa macet dan banyak pepohonan (Perasaan: tenang/tidak stres). Di sore hari, ia sering ikut gotong-royong di perumahan (Makna Hidup/Eudaimonia tinggi). Hasilnya, Indeks Kebahagiaan Pak Budi bisa jauh lebih tinggi dari seorang manajer kaya raya yang setiap hari stres di jalan raya dan tidak kenal tetangganya.
+            </div>
+        </div>
+
+        <div class="materi-section">
+            <h2 class="materi-judul">3. Pengaruh Tata Ruang terhadap Kebahagiaan</h2>
+            <p>Mengapa tata ruang sangat penting bagi kebahagiaan? Karena manusia bereaksi langsung terhadap lingkungan di sekitarnya. Kota yang diatur asal-asalan—di mana permukiman menyatu dengan pembuangan sampah, tidak ada trotoar, dan jalanan selalu macet parah—akan langsung menghancurkan kualitas mental warganya.</p>
+            <div class="anim-kota">
+                <div class="awan"></div><div class="awan" style="top: 30px; left: 150px; animation-delay: 5s;"></div>
+                <div class="taman"></div>
+                <div class="jalan">
+                    <div class="garis-jalan"></div><div class="mobil"></div><div class="mobil" style="background:var(--blue); animation-delay: 2s;"></div>
+                </div>
+            </div>
+            <p>Sebaliknya, <b>Tata Ruang Kota yang Baik</b> yang dapat meroketkan Indeks Kebahagiaan warga memiliki ciri-ciri khusus:</p>
+            <ul>
+                <li><b>Ketersediaan Ruang Terbuka Hijau (RTH) / Taman Kota:</b> Memberikan warga tempat berolahraga ringan, menghirup udara bersih, dan melepas penat. Warna hijau alami terbukti menurunkan hormon stres kortisol.</li>
+                <li><b>Transportasi Massal yang Mudah & Trotoar yang Nyaman:</b> Jika warga nyaman berjalan kaki dan naik angkutan umum, jumlah kendaraan pribadi berkurang drastis. Macet hilang, polusi suara klakson lenyap, emosi warga menjadi stabil di jalan raya.</li>
+                <li><b>Fasilitas Sosial yang Mudah Dijangkau (Zonasi yang Tepat):</b> Memisahkan area pabrik industri berat dari perumahan warga, sehingga warga bisa tidur tenang tanpa suara mesin pabrik dan bisa bersosialisasi dengan sehat di alun-alun atau balai warga.</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Bagian 1: Data Diri -->
+    <div id="data-diri-section">
+        <h2>Isi Data Diri Sebelum Kuis</h2>
+        <div class="input-group">
+            <label>Nama Lengkap:</label>
+            <input type="text" id="nama" placeholder="Masukkan nama lengkap Anda..." required autocomplete="off">
+        </div>
+        <div class="input-group">
+            <label>Kelas:</label>
+            <select id="kelas" required>
+                <option value="">-- Pilih Kelas --</option>
+                <option value="XII IPS 1">XII IPS 1</option>
+                <option value="XII IPS 2">XII IPS 2</option>
+                <option value="XII IPS 3">XII IPS 3</option>
+                <option value="XII IPS 4">XII IPS 4</option>
+            </select>
+        </div>
+        <p style="color:red; font-size:14px; text-align:center;">
+            <i>*SISTEM CBT AKTIF: Menekan tombol di bawah akan mengunci browser Anda ke Mode Layar Penuh. <b>DILARANG</b> menekan Esc, Alt+Tab, tombol Windows, atau meminimalkan layar. Keluar dari layar ujian akan mengunci lembar kerja Anda dan membutuhkan password Guru untuk membukanya kembali!</i>
+        </p>
+        <button class="btn-submit" onclick="mulaiKuis()">Masuk Mode Ujian CBT & Buka Soal</button>
+    </div>
+
+    <!-- Bagian 2: Kuis Utama -->
+    <div id="quiz-section">
+        <h2 style="border-top:2px dashed #ccc; padding-top:20px; margin-top:20px;">Selamat Mengerjakan Ujian, <span id="nama-display" style="color:var(--blue);"></span>!</h2>
+        <p style="text-align:center;"><i>Silakan gulir ke atas untuk membaca materi apabila diperlukan. Dilarang menutup halaman ini.</i></p>
+        
+        <!-- A. LKPD -->
+        <h3 id="lkpd-judul" style="color:var(--purple); text-align:left;">A. Soal LKPD (Isian Singkat & Form)</h3>
+        <div class="card-soal"><label>1. Pembangunan yang memenuhi kebutuhan masa kini tanpa mengorbankan hak/kemampuan generasi mendatang untuk menikmatinya disebut pembangunan...</label><input type="text" id="lkpd1"></div>
+        <div class="card-soal"><label>2. Tiga pilar utama dalam konsep pembangunan berkelanjutan adalah pilar ekonomi, lingkungan, dan pilar...</label><input type="text" id="lkpd2"></div>
+        <div class="card-soal"><label>3. Dimensi kebahagiaan yang secara spesifik mengukur kondisi emosi seseorang sehari-hari (senang vs stres) disebut dimensi...</label><input type="text" id="lkpd3"></div>
+        <div class="card-soal"><label>4. Lembaga resmi di negara Indonesia yang bertugas mengukur angka Indeks Kebahagiaan masyarakat adalah...</label><input type="text" id="lkpd4"></div>
+        <div class="card-soal"><label>5. (Esai Singkat) Jelaskan dengan singkat, mengapa ketiadaan taman kota bisa memengaruhi tingkat stres warga perumahan!</label><textarea id="lkpd5" rows="3"></textarea></div>
+
+        <!-- B. MEMADUKAN -->
+        <h3 id="memadukan-judul" style="color:var(--lime); text-align:left;">B. Soal Memadukan (Menjodohkan)</h3>
+        <p><i>Ketik huruf pilihan (A, B, C, D, atau E) di dalam kotak untuk memasangkan pernyataan dengan jawaban yang tepat!</i></p>
+        <div style="background:#eee; padding:10px; border-radius:5px; margin-bottom:15px; font-weight:bold; color:var(--blue);">
+            A. Dimensi Makna Hidup (Eudaimonia) <br> B. Pilar Lingkungan <br> C. Menyediakan ruang terbuka hijau & taman <br> D. Indeks Kebahagiaan <br> E. Pilar Ekonomi
+        </div>
+        <div class="card-soal"><label>1. Pilar yang berfokus pada penjagaan alam, penyaringan limbah, dan pelestarian hutan.</label><input type="text" id="match1" maxlength="1"></div>
+        <div class="card-soal"><label>2. Dimensi dalam Indeks Kebahagiaan yang mengukur rasa kemandirian, tujuan masa depan, dan kerukunan sosial.</label><input type="text" id="match2" maxlength="1"></div>
+        <div class="card-soal"><label>3. Ukuran pengukur tingkat kesejahteraan jiwa raga warga yang mulai menggantikan ukuran sebatas uang/PDB.</label><input type="text" id="match3" maxlength="1"></div>
+        <div class="card-soal"><label>4. Pilar yang mengharuskan pembangunan membuka lapangan pekerjaan baru untuk menekan pengangguran.</label><input type="text" id="match4" maxlength="1"></div>
+        <div class="card-soal"><label>5. Contoh penerapan langkah tata ruang kota yang dapat secara langsung menurunkan stres dan meningkatkan kebahagiaan.</label><input type="text" id="match5" maxlength="1"></div>
+
+        <!-- C. PILIHAN GANDA -->
+        <h3 id="pg-judul" style="color:var(--yellow); text-align:left; background:#555; padding:10px;">C. Soal Pilihan Ganda</h3>
+        <div class="card-soal"><label>1. Tujuan mendasar dari diterapkannya konsep Pembangunan Berkelanjutan di suatu wilayah adalah...</label><label class="radio-label"><input type="radio" name="pg1" value="A"> A. Mengedukasi masyarakat agar meninggalkan teknologi modern</label><label class="radio-label"><input type="radio" name="pg1" value="B"> B. Memanfaatkan sumber daya saat ini agar bisa dinikmati hingga generasi masa depan</label><label class="radio-label"><input type="radio" name="pg1" value="C"> C. Mempercepat proses industrialisasi di seluruh area pedesaan</label><label class="radio-label"><input type="radio" name="pg1" value="D"> D. Menghabiskan anggaran negara untuk membangun gedung pencakar langit</label><label class="radio-label"><input type="radio" name="pg1" value="E"> E. Mengubah hutan lindung menjadi kawasan tambang menguntungkan</label></div>
+        <div class="card-soal"><label>2. Pak Budi membangun pabrik tekstil yang mempekerjakan warga lokal, namun ia langsung membuang sisa pewarna pabrik ke sungai terdekat. Tindakan Pak Budi melanggar pilar...</label><label class="radio-label"><input type="radio" name="pg2" value="A"> A. Ekonomi</label><label class="radio-label"><input type="radio" name="pg2" value="B"> B. Ideologi</label><label class="radio-label"><input type="radio" name="pg2" value="C"> C. Sosial</label><label class="radio-label"><input type="radio" name="pg2" value="D"> D. Lingkungan</label><label class="radio-label"><input type="radio" name="pg2" value="E"> E. Demografi</label></div>
+        <div class="card-soal"><label>3. Berikut ini yang BUKAN merupakan 3 dimensi utama penyusun Indeks Kebahagiaan menurut penilaian BPS adalah...</label><label class="radio-label"><input type="radio" name="pg3" value="A"> A. Kepuasan Hidup (Life Satisfaction)</label><label class="radio-label"><input type="radio" name="pg3" value="B"> B. Perasaan (Affect)</label><label class="radio-label"><input type="radio" name="pg3" value="C"> C. Pertumbuhan Investasi Modal Asing</label><label class="radio-label"><input type="radio" name="pg3" value="D"> D. Makna Hidup (Eudaimonia)</label><label class="radio-label"><input type="radio" name="pg3" value="E"> E. Semua jawaban salah</label></div>
+        <div class="card-soal"><label>4. Pak Andi merasa sangat aman dan nyaman tinggal di Batam karena ia sudah memiliki rumah sendiri yang tidak bocor dan akses rumah sakit yang dekat. Kondisi Pak Andi terukur tinggi pada dimensi...</label><label class="radio-label"><input type="radio" name="pg4" value="A"> A. Perasaan</label><label class="radio-label"><input type="radio" name="pg4" value="B"> B. Makna Hidup</label><label class="radio-label"><input type="radio" name="pg4" value="C"> C. Kepuasan Hidup</label><label class="radio-label"><input type="radio" name="pg4" value="D"> D. Interaksi Komunitas</label><label class="radio-label"><input type="radio" name="pg4" value="E"> E. Pertumbuhan Diri</label></div>
+        <div class="card-soal"><label>5. Terjebak kemacetan lalu lintas setiap hari akibat jalanan kota yang sempit dan minimnya angkutan umum sangat berpotensi memicu emosi amarah. Hal ini langsung menjatuhkan Indeks Kebahagiaan pada dimensi...</label><label class="radio-label"><input type="radio" name="pg5" value="A"> A. Kepuasan Hidup</label><label class="radio-label"><input type="radio" name="pg5" value="B"> B. Perasaan (Affect)</label><label class="radio-label"><input type="radio" name="pg5" value="C"> C. Makna Hidup</label><label class="radio-label"><input type="radio" name="pg5" value="D"> D. Kemandirian Diri</label><label class="radio-label"><input type="radio" name="pg5" value="E"> E. Kesejahteraan Fisik</label></div>
+        <div class="card-soal"><label>6. Pembangunan fasilitas sosial bersubsidi seperti sekolah gratis yang berkualitas agar penduduk tidak bodoh merupakan pencerminan pembangunan berkelanjutan pada pilar...</label><label class="radio-label"><input type="radio" name="pg6" value="A"> A. Lingkungan</label><label class="radio-label"><input type="radio" name="pg6" value="B"> B. Sosial</label><label class="radio-label"><input type="radio" name="pg6" value="C"> C. Ekonomi</label><label class="radio-label"><input type="radio" name="pg6" value="D"> D. Politik</label><label class="radio-label"><input type="radio" name="pg6" value="E"> E. Ekologi</label></div>
+        <div class="card-soal"><label>7. Perhatikan kebijakan tata ruang berikut: (1) Menutup trotoar untuk pelebaran jalan mobil, (2) Memperbanyak Ruang Terbuka Hijau, (3) Membangun pabrik di tengah area perumahan warga, (4) Mengembangkan transportasi bus umum yang nyaman. Kebijakan yang akan MENINGKATKAN Indeks Kebahagiaan ditunjukkan oleh nomor...</label><label class="radio-label"><input type="radio" name="pg7" value="A"> A. (1) dan (3)</label><label class="radio-label"><input type="radio" name="pg7" value="B"> B. (2) dan (4)</label><label class="radio-label"><input type="radio" name="pg7" value="C"> C. (1) dan (2)</label><label class="radio-label"><input type="radio" name="pg7" value="D"> D. (3) dan (4)</label><label class="radio-label"><input type="radio" name="pg7" value="E"> E. (2) dan (3)</label></div>
+        <div class="card-soal"><label>8. Jika seorang siswa IPS rajin mengikuti kegiatan ekstrakurikuler kepemimpinan dan aktif bergotong-royong dengan masyarakat sekitar sekolah, maka siswa tersebut sedang meningkatkan Indeks Kebahagiaannya pada dimensi...</label><label class="radio-label"><input type="radio" name="pg8" value="A"> A. Perasaan Harian</label><label class="radio-label"><input type="radio" name="pg8" value="B"> B. Finansial Keluarga</label><label class="radio-label"><input type="radio" name="pg8" value="C"> C. Makna Hidup (Eudaimonia)</label><label class="radio-label"><input type="radio" name="pg8" value="D"> D. Kepuasan Infrastruktur</label><label class="radio-label"><input type="radio" name="pg8" value="E"> E. Estetika Kota</label></div>
+        <div class="card-soal"><label>9. Pemahaman mendalam tentang penataan letak kawasan (tata ruang) yang ideal adalah penataan yang mampu...</label><label class="radio-label"><input type="radio" name="pg9" value="A"> A. Mengurangi jumlah penduduk miskin dengan cara mengusir mereka</label><label class="radio-label"><input type="radio" name="pg9" value="B"> B. Menarik seluruh pabrik dari daerah lain agar pindah ke Batam</label><label class="radio-label"><input type="radio" name="pg9" value="C"> C. Menyediakan ruang permukiman yang sehat, bebas macet, dan asri</label><label class="radio-label"><input type="radio" name="pg9" value="D"> D. Menebang semua hutan di tengah kota untuk diubah menjadi mal</label><label class="radio-label"><input type="radio" name="pg9" value="E"> E. Membangun perumahan sepadat mungkin tanpa menyisakan lahan kosong</label></div>
+        <div class="card-soal"><label>10. Paradigma keberhasilan pembangunan wilayah di era modern saat ini telah bergeser. Negara yang sukses tidak hanya dinilai dari uang (PDB) yang dihasilkan, melainkan dari...</label><label class="radio-label"><input type="radio" name="pg10" value="A"> A. Kekuatan dan jumlah pasukan militer yang dimiliki</label><label class="radio-label"><input type="radio" name="pg10" value="B"> B. Seberapa sering pemimpin negara tampil di televisi dunia</label><label class="radio-label"><input type="radio" name="pg10" value="C"> C. Kecepatan penebangan hutan untuk ekspor sawit</label><label class="radio-label"><input type="radio" name="pg10" value="D"> D. Kesejahteraan batin warganya serta kelestarian daya dukung alam</label><label class="radio-label"><input type="radio" name="pg10" value="E"> E. Pembangunan ratusan jembatan raksasa melintasi laut</label></div>
+
+        <!-- D. ESAI -->
+        <h3 id="esai-judul" style="color:var(--orange); text-align:left; background:#555; padding:10px;">D. Soal Esai Panjang</h3>
+        <p><i>Jawablah dengan terstruktur dan jelas menggunakan bahasamu sendiri berdasarkan materi di atas!</i></p>
+        <div class="card-soal"><label>1. Jelaskan definisi Paradigma Pembangunan Berkelanjutan menggunakan bahasamu sendiri dan beri 1 contoh penerapannya di Kota Batam!</label><textarea id="esai1" rows="4"></textarea></div>
+        <div class="card-soal"><label>2. Mengapa tingkat kekayaan atau perputaran uang (PDB) suatu kota tidak bisa lagi dijadikan acuan mutlak bahwa penduduk kota tersebut hidupnya sejahtera/bahagia?</label><textarea id="esai2" rows="4"></textarea></div>
+        <div class="card-soal"><label>3. Sebutkan dan jelaskan secara singkat 3 (tiga) dimensi penyusun Indeks Kebahagiaan menurut acuan Badan Pusat Statistik (BPS)!</label><textarea id="esai3" rows="4"></textarea></div>
+        <div class="card-soal"><label>4. Berikan analisis singkatmu, mengapa situasi kemacetan lalu lintas setiap jam pergi-pulang sekolah bisa langsung menjatuhkan Indeks Kebahagiaan warga!</label><textarea id="esai4" rows="4"></textarea></div>
+        <div class="card-soal"><label>5. Bayangkan kamu adalah seorang Walikota Batam. Sebutkan 3 fasilitas umum terkait tata ruang yang paling wajib kamu perbaiki/bangun demi menjaga kesehatan jiwa wargamu!</label><textarea id="esai5" rows="4"></textarea></div>
+
+        <button class="btn-submit bg-blue" onclick="kumpulkanKuis()">Kirim Semua Jawaban & Lihat Nilai Akhir</button>
+    </div>
+
+    <!-- Status Loading -->
+    <div id="loading"><br><br>Menghitung Rekap Total Nilai dan Mengirim ke Server... Mohon Tunggu Sebentar ⏳</div>
+
+    <!-- Bagian 3: Leaderboard (Rekapan Nilai) -->
+    <div id="leaderboard-section">
+        <h2>🎉 Kuis Selesai! Terima Kasih!</h2>
+        
+        <!-- KOTAK RINCIAN SKOR -->
+        <div class="score-box">
+            <h3 style="margin-top:0; color:var(--purple);">Rincian Nilai Gabungan Anda:</h3>
+            <div class="score-breakdown">
+                <div class="score-item">LKPD: <br><span id="score-lkpd">0</span> / 20</div>
+                <div class="score-item">Memadukan: <br><span id="score-match">0</span> / 10</div>
+                <div class="score-item">Pilihan Ganda: <br><span id="score-pg">0</span> / 40</div>
+                <div class="score-item">Esai: <br><span id="score-esai">0</span> / 30</div>
+            </div>
+            <h2 style="margin-bottom:0;">NILAI TOTAL KESELURUHAN:</h2>
+            <h1 style="color:var(--red); font-size:56px; margin:0;" id="nilai-akhir">0</h1>
+        </div>
+
+        <p>Rekapan Nilai Seluruh Siswa di Kelas Ini (Sistem Transparan):</p>
+        
+        <table id="tabel-rekap">
+            <thead>
+                <tr>
+                    <th>Peringkat</th>
+                    <th>Nama Siswa</th>
+                    <th>Kelas</th>
+                    <th>Total Nilai</th>
+                </tr>
+            </thead>
+            <tbody id="isi-tabel"></tbody>
+        </table>
+    </div>
+
+</div>
+
+<script>
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyctcIBA1W0kjqfjoZgFXTCLzS8ssEMal-qpSdDhYcdPage6o00RD6SiS5n2m2IlQc/exec";
+
+    let dataSiswa = { nama: "", kelas: "" };
+    let statusKuis = false; 
+    let jumlahPelanggaran = 0;
+    let kuisSudahDikirim = false; 
+    const PASSWORD_GURU = "advent123"; 
+
+    // FUNGSI ANIMASI MENU CERDAS DENGAN WRAPPER
+    const wrappers = document.querySelectorAll('.menu-wrapper');
+    wrappers.forEach(wrapper => {
+        const menu = wrapper.querySelector('.btn-menu');
+        wrapper.addEventListener('mouseenter', () => {
+            menu.style.animationPlayState = 'running';
+        });
+        menu.addEventListener('animationiteration', () => {
+            if (!wrapper.matches(':hover')) {
+                menu.style.animationPlayState = 'paused';
+            }
+        });
+    });
+
+    // FUNGSI ALERT CUSTOM ANTI-BENTROK DENGAN CBT
+    function showAlert(msg) {
+        if (statusKuis) {
+            statusKuis = false; 
+            alert(msg);
+            setTimeout(() => { statusKuis = true; }, 500); 
+        } else {
+            alert(msg);
+        }
+    }
+
+    // FUNGSI NAVIGASI MENU
+    function toggleMateri() {
+        const materi = document.getElementById("materi-pembelajaran");
+        if (materi.style.display === "none" || materi.style.display === "") {
+            materi.style.display = "block";
+            materi.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            if (!statusKuis) {
+                materi.style.display = "none";
+            } else {
+                materi.scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+    }
+
+    function scrollToSection(id) {
+        const target = document.getElementById(id);
+        const quiz = document.getElementById("quiz-section");
+        
+        if (quiz.style.display === "block") {
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        } else {
+            showAlert("Harap isi data diri dan klik 'Masuk Mode Ujian' terlebih dahulu untuk mengakses area soal dan menu ini!");
+        }
+    }
+
+    function lihatSkor() {
+        if (!kuisSudahDikirim) {
+            showAlert("Sistem Menolak: Anda belum menyelesaikan dan mengirim jawaban ujian. Silakan selesaikan ujian Anda terlebih dahulu untuk melihat rekap nilai total!");
+        } else {
+            document.getElementById("materi-pembelajaran").style.display = "none";
+            document.getElementById("quiz-section").style.display = "none";
+            document.getElementById("leaderboard-section").style.display = "block";
+            document.getElementById("leaderboard-section").scrollIntoView({ behavior: 'smooth' });
+        }
+    }
+
+    // FUNGSI ANTI CURANG (CBT STRICT MODE)
+    document.addEventListener('contextmenu', event => { if(statusKuis) event.preventDefault(); });
+    document.addEventListener('copy', event => { if(statusKuis){ event.preventDefault(); showAlert("Peringatan: Dilarang Melakukan Copy-Paste!"); }});
+    document.addEventListener('paste', event => { if(statusKuis){ event.preventDefault(); showAlert("Peringatan: Dilarang Melakukan Copy-Paste!"); }});
+
+    document.addEventListener('keydown', (e) => {
+        if (statusKuis) {
+            if (e.key === 'F12' || e.key === 'Alt' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'C' || e.key === 'J')) || (e.ctrlKey && e.key === 'U')) {
+                e.preventDefault();
+                triggerCurang();
+            }
+        }
+    });
+
+    document.addEventListener('fullscreenchange', () => {
+        if (!document.fullscreenElement && statusKuis) {
+            triggerCurang();
+        }
+    });
+
+    document.addEventListener("visibilitychange", () => {
+        if (document.hidden && statusKuis) { triggerCurang(); }
+    });
+    window.addEventListener("blur", () => {
+        if (statusKuis) { triggerCurang(); }
+    });
+
+    function triggerCurang() {
+        if (!statusKuis) return; // Cegah trigger berulang
+        statusKuis = false; 
+        jumlahPelanggaran++;
+        document.getElementById("cheat-warning").style.display = "flex";
+        document.getElementById("main-container").style.display = "none";
+    }
+
+    function kembaliKeUjian() {
+        let pass = prompt("MASUKKAN PASSWORD GURU UNTUK MEMBUKA KUNCI UJIAN:");
+        if (pass === PASSWORD_GURU) {
+            document.getElementById("cheat-warning").style.display = "none";
+            document.getElementById("main-container").style.display = "block";
+            
+            let elem = document.documentElement;
+            if (elem.requestFullscreen) { elem.requestFullscreen().catch(e => console.log(e)); }
+            
+            alert("Kunci berhasil dibuka. Pelanggaran tercatat " + jumlahPelanggaran + " kali.");
+            setTimeout(() => { statusKuis = true; }, 1000); // Aktifkan lagi dengan delay aman
+        } else if (pass !== null) {
+            alert("Password Salah! Hubungi Guru Anda.");
+        }
+    }
+
+    function mulaiKuis() {
+        dataSiswa.nama = document.getElementById("nama").value.trim();
+        dataSiswa.kelas = document.getElementById("kelas").value;
+        if(dataSiswa.nama === "" || dataSiswa.kelas === "") {
+            showAlert("Sistem Menolak: Harap isi Nama Lengkap dan Kelas Anda terlebih dahulu!");
+            return;
+        }
+
+        let elem = document.documentElement;
+        if (elem.requestFullscreen) { elem.requestFullscreen().catch(e => console.log(e)); }
+        else if (elem.webkitRequestFullscreen) { elem.webkitRequestFullscreen(); } 
+        else if (elem.msRequestFullscreen) { elem.msRequestFullscreen(); }
+
+        document.getElementById("data-diri-section").style.display = "none";
+        document.getElementById("materi-pembelajaran").style.display = "block";
+        document.getElementById("nama-display").innerText = dataSiswa.nama;
+        document.getElementById("quiz-section").style.display = "block";
+        
+        document.getElementById("materi-pembelajaran").scrollIntoView({ behavior: 'smooth' });
+        setTimeout(() => { statusKuis = true; }, 1000); 
+    }
+
+    function kumpulkanKuis() {
+        let skorLKPD = 0, skorMatch = 0, skorPG = 0, skorEsai = 0;
+        let detailJawaban = {};
+
+        const k1 = document.getElementById("lkpd1").value.toLowerCase();
+        const k2 = document.getElementById("lkpd2").value.toLowerCase();
+        const k3 = document.getElementById("lkpd3").value.toLowerCase();
+        const k4 = document.getElementById("lkpd4").value.toLowerCase();
+        if(k1.includes("berkelanjutan")) skorLKPD += 4;
+        if(k2.includes("sosial")) skorLKPD += 4;
+        if(k3.includes("perasaan") || k3.includes("affect")) skorLKPD += 4;
+        if(k4.includes("bps") || k4.includes("statistik")) skorLKPD += 4;
+        if(document.getElementById("lkpd5").value.length > 20) skorLKPD += 4;
+
+        detailJawaban.lkpd = { skor: skorLKPD, jawaban: [k1, k2, k3, k4, document.getElementById("lkpd5").value] };
+
+        const matchKunci = ["B", "A", "D", "E", "C"];
+        let mJawab = [];
+        for(let i=1; i<=5; i++) {
+            let j = document.getElementById("match"+i).value.toUpperCase();
+            if(j === matchKunci[i-1]) skorMatch += 2;
+            mJawab.push(j);
+        }
+        detailJawaban.memadukan = { skor: skorMatch, jawaban: mJawab };
+
+        const pgKunci = ["B", "D", "C", "C", "B", "B", "B", "C", "C", "D"]; 
+        let pgJawab = [];
+        for(let i=1; i<=10; i++) {
+            let j = document.querySelector(`input[name="pg${i}"]:checked`);
+            let val = j ? j.value : "";
+            if(val === pgKunci[i-1]) skorPG += 4;
+            pgJawab.push(val);
+        }
+        detailJawaban.pg = { skor: skorPG, jawaban: pgJawab };
+
+        let eJawab = [];
+        for(let i=1; i<=5; i++) {
+            let txt = document.getElementById("esai"+i).value;
+            if(txt.trim().length > 20) skorEsai += 6;
+            eJawab.push(txt);
+        }
+        detailJawaban.esai = { skor: skorEsai, jawaban: eJawab };
+
+        let totalNilaiGabungan = skorLKPD + skorMatch + skorPG + skorEsai;
+
+        const payload = {
+            nama: dataSiswa.nama + (jumlahPelanggaran > 0 ? ` (Melanggar: ${jumlahPelanggaran}x)` : ""),
+            kelas: dataSiswa.kelas,
+            score: totalNilaiGabungan,
+            detail: detailJawaban
+        };
+
+        statusKuis = false;
+        kuisSudahDikirim = true; 
+
+        if (document.exitFullscreen) { document.exitFullscreen().catch(err => console.log(err)); }
+
+        document.getElementById("materi-pembelajaran").style.display = "none";
+        document.getElementById("quiz-section").style.display = "none";
+        document.getElementById("loading").style.display = "block";
+
+        document.getElementById("score-lkpd").innerText = skorLKPD;
+        document.getElementById("score-match").innerText = skorMatch;
+        document.getElementById("score-pg").innerText = skorPG;
+        document.getElementById("score-esai").innerText = skorEsai;
+        document.getElementById("nilai-akhir").innerText = totalNilaiGabungan;
+
+        fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("leaderboard-section").style.display = "block";
+            
+            let tbody = document.getElementById("isi-tabel");
+            tbody.innerHTML = "";
+            if(data.leaderboard && data.leaderboard.length > 0) {
+                data.leaderboard.forEach((siswa, index) => {
+                    let tr = document.createElement("tr");
+                    tr.innerHTML = `<td>${index + 1}</td>
+                                    <td>${siswa.nama}</td>
+                                    <td>${siswa.kelas}</td>
+                                    <td style="font-weight:bold; color:var(--darkgreen);">${siswa.score}</td>`;
+                    tbody.appendChild(tr);
+                });
+            }
+        })
+        .catch(err => {
+            showAlert("Gagal mengirim ke Google Sheets. Rekap Nilai Total Anda hanya tersimpan lokal.");
+            document.getElementById("loading").style.display = "none";
+            document.getElementById("leaderboard-section").style.display = "block";
+        });
+    }
+</script>
+</body>
+</html>
