@@ -121,13 +121,20 @@
         .radio-label:hover { background: #f1f1f1; } input[type="radio"] { margin-right: 10px; }
         table { width: 100%; border-collapse: collapse; margin-top: 20px; } th, td { padding: 12px; border: 1px solid #ddd; text-align: center; } th { background: var(--blue); color: white; } tr:nth-child(even) { background-color: #f9f9f9; }
         
-        #quiz-section, #leaderboard-section { display: none; } #loading { text-align: center; font-weight: bold; color: var(--orange); display: none; }
+        #quiz-section, #leaderboard-section, #guru-section { display: none; } 
+        #loading { text-align: center; font-weight: bold; color: var(--orange); display: none; }
 
         /* KOTAK RINCIAN SKOR */
         .score-box { background: #e8f4f8; padding: 20px; border-radius: 12px; border: 2px solid var(--blue); margin-bottom: 20px; text-align: center; }
         .score-breakdown { display: flex; flex-wrap: wrap; justify-content: center; gap: 15px; margin-bottom: 15px; }
         .score-item { background: white; padding: 10px 15px; border-radius: 8px; border: 1px solid #ccc; font-weight: bold; }
         .score-item span { color: var(--blue); font-size: 18px; }
+
+        /* PANEL GURU & KUNCI JAWABAN */
+        .kunci-box { background: #f9fff9; border: 2px solid var(--darkgreen); border-radius: 10px; padding: 20px; margin-bottom: 20px; line-height: 1.7; }
+        .kunci-box h3 { color: var(--darkgreen); margin-top: 0; border-bottom: 2px solid var(--darkgreen); padding-bottom: 8px; text-align: left; }
+        .kunci-box ol { padding-left: 20px; margin: 10px 0; }
+        .kunci-box li { margin-bottom: 8px; }
 
         /* OVERLAY ANTI CURANG (CBT MODE) */
         #cheat-warning {
@@ -328,7 +335,6 @@
 
     <!-- Bagian 3: Leaderboard (Rekapan Nilai) -->
     <div id="leaderboard-section">
-        <!-- Area Skor Pribadi (Hanya muncul jika siswa sudah selesai mengirim jawaban) -->
         <div id="personal-score-area">
             <h2>🎉 Kuis Selesai! Terima Kasih!</h2>
             <div class="score-box">
@@ -358,8 +364,85 @@
             <tbody id="isi-tabel"></tbody>
         </table>
 
-        <!-- Tombol Kembali (Muncul jika siswa belum selesai ujian) -->
         <button id="btn-kembali-dari-skor" class="btn-submit bg-orange" style="display:none;" onclick="kembaliDariSkor()">⬅️ Kembali ke Halaman Sebelumnya</button>
+    </div>
+
+    <!-- Bagian 4: PANEL GURU (Kunci Jawaban + Rekap Nilai Semua Siswa) -->
+    <div id="guru-section">
+        <h2 style="color:var(--darkgreen);">👨‍🏫 Panel Guru: Kunci Jawaban & Rekap Nilai</h2>
+        
+        <button class="btn-submit bg-darkgreen" style="margin-top:5px; margin-bottom:25px;" onclick="window.open(LINK_GOOGLE_SHEETS, '_blank')">📊 Buka Database Lengkap di Google Sheets</button>
+
+        <!-- Rekap Nilai Semua Siswa -->
+        <div class="kunci-box">
+            <h3>🏆 Rekap Nilai Semua Siswa (Real-Time)</h3>
+            <table style="margin-top:10px;">
+                <thead>
+                    <tr>
+                        <th>Peringkat</th>
+                        <th>Nama Siswa</th>
+                        <th>Kelas</th>
+                        <th>Total Nilai</th>
+                    </tr>
+                </thead>
+                <tbody id="isi-tabel-guru"></tbody>
+            </table>
+        </div>
+
+        <!-- Kunci Jawaban LKPD -->
+        <div class="kunci-box">
+            <h3>🔑 A. Kunci Jawaban Soal LKPD (Bobot: 20 Poin)</h3>
+            <ol>
+                <li><b>Berkelanjutan</b> (4 Poin)</li>
+                <li><b>Sosial</b> (4 Poin)</li>
+                <li><b>Perasaan / Affect</b> (4 Poin)</li>
+                <li><b>Badan Pusat Statistik / BPS</b> (4 Poin)</li>
+                <li><b>Esai LKPD:</b> Ketiadaan taman kota membuat warga tidak memiliki tempat untuk berolahraga, bersosialisasi, atau melepas penat setelah beraktivitas, sehingga terus terpapar kepadatan dan kebisingan yang memicu stres emosional. (4 Poin)</li>
+            </ol>
+        </div>
+
+        <!-- Kunci Jawaban Memadukan -->
+        <div class="kunci-box">
+            <h3>🔑 B. Kunci Jawaban Soal Memadukan (Bobot: 10 Poin)</h3>
+            <ol>
+                <li><b>B</b> — Pilar Lingkungan (2 Poin)</li>
+                <li><b>A</b> — Dimensi Makna Hidup / Eudaimonia (2 Poin)</li>
+                <li><b>D</b> — Indeks Kebahagiaan (2 Poin)</li>
+                <li><b>E</b> — Pilar Ekonomi (2 Poin)</li>
+                <li><b>C</b> — Menyediakan ruang terbuka hijau & taman (2 Poin)</li>
+            </ol>
+        </div>
+
+        <!-- Kunci Jawaban Pilihan Ganda -->
+        <div class="kunci-box">
+            <h3>🔑 C. Kunci Jawaban Soal Pilihan Ganda (Bobot: 40 Poin)</h3>
+            <ol>
+                <li><b>B</b> — Memanfaatkan sumber daya saat ini agar bisa dinikmati hingga generasi masa depan (4 Poin)</li>
+                <li><b>D</b> — Lingkungan (4 Poin)</li>
+                <li><b>C</b> — Pertumbuhan Investasi Modal Asing (4 Poin)</li>
+                <li><b>C</b> — Kepuasan Hidup (4 Poin)</li>
+                <li><b>B</b> — Perasaan / Affect (4 Poin)</li>
+                <li><b>B</b> — Sosial (4 Poin)</li>
+                <li><b>B</b> — (2) dan (4) (4 Poin)</li>
+                <li><b>C</b> — Makna Hidup / Eudaimonia (4 Poin)</li>
+                <li><b>C</b> — Menyediakan ruang permukiman yang sehat, bebas macet, dan asri (4 Poin)</li>
+                <li><b>D</b> — Kesejahteraan batin warganya serta kelestarian daya dukung alam (4 Poin)</li>
+            </ol>
+        </div>
+
+        <!-- Kunci Jawaban Esai -->
+        <div class="kunci-box">
+            <h3>🔑 D. Kunci Jawaban Soal Esai Panjang (Bobot: 30 Poin)</h3>
+            <ol>
+                <li><b>Paradigma Pembangunan Berkelanjutan:</b> Konsep pembangunan untuk memenuhi kebutuhan masa kini tanpa mengorbankan kemampuan generasi mendatang. <i>Contoh di Batam:</i> Pembangunan pabrik elektronik yang membuka lapangan kerja (ekonomi), merekrut warga lokal (sosial), dan menggunakan filter limbah agar tidak mencemari laut Batam (lingkungan). (6 Poin)</li>
+                <li><b>Mengapa PDB tidak cukup:</b> Karena PDB hanya mengukur materi/uang, bukan kebahagiaan batin. Warga kota yang kaya secara materi tetap bisa tidak sejahtera jika hidup penuh stres, macet, polusi, atau tidak memiliki hubungan sosial yang baik. (6 Poin)</li>
+                <li><b>3 Dimensi Indeks Kebahagiaan BPS:</b> (1) <i>Kepuasan Hidup</i> (penilaian objektif terhadap pekerjaan, rumah, kesehatan), (2) <i>Perasaan / Affect</i> (emosi harian senang vs cemas/stres), (3) <i>Makna Hidup / Eudaimonia</i> (kemandirian, tujuan hidup, dan kerukunan bertetangga). (6 Poin)</li>
+                <li><b>Dampak Kemacetan:</b> Kemacetan menyita waktu istirahat, menguras energi fisik, dan memicu emosi negatif (marah/frustrasi) di jalan raya sehingga langsung menjatuhkan Indeks Kebahagiaan pada <i>Dimensi Perasaan (Affect)</i>. (6 Poin)</li>
+                <li><b>3 Fasilitas Umum Tata Ruang:</b> (1) Taman kota / Ruang Terbuka Hijau (RTH), (2) Transportasi umum massal & trotoar yang nyaman, (3) Ruang interaksi komunitas (alun-alun / balai warga). (6 Poin)</li>
+            </ol>
+        </div>
+
+        <button class="btn-submit bg-orange" onclick="tutupMenuGuru()">⬅️ Tutup Panel Guru & Kembali</button>
     </div>
 
 </div>
@@ -398,21 +481,65 @@
         }
     }
 
+    // FUNGSI PANEL GURU (MENAMPILKAN KUNCI JAWABAN & SEMUA NILAI SISWA)
     function bukaMenuGuru() {
         if (statusKuis) {
             showAlert("Anda tidak diizinkan membuka menu ini saat sedang ujian!");
             return;
         }
-        let pass = prompt("MASUKKAN PASSWORD GURU UNTUK MENGAKSES REKAPAN NILAI:");
+        let pass = prompt("MASUKKAN PASSWORD GURU UNTUK MELIHAT KUNCI JAWABAN & REKAP NILAI:");
         if (pass === PASSWORD_GURU) {
-            window.open(LINK_GOOGLE_SHEETS, '_blank');
+            document.getElementById("data-diri-section").style.display = "none";
+            document.getElementById("materi-pembelajaran").style.display = "none";
+            document.getElementById("quiz-section").style.display = "none";
+            document.getElementById("leaderboard-section").style.display = "none";
+            document.getElementById("guru-section").style.display = "none";
+            document.getElementById("loading").style.display = "block";
+
+            fetch(SCRIPT_URL)
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("guru-section").style.display = "block";
+
+                let tbody = document.getElementById("isi-tabel-guru");
+                tbody.innerHTML = "";
+                if (data.leaderboard && data.leaderboard.length > 0) {
+                    data.leaderboard.forEach((siswa, index) => {
+                        let tr = document.createElement("tr");
+                        tr.innerHTML = `<td>${index + 1}</td>
+                                        <td>${siswa.nama}</td>
+                                        <td>${siswa.kelas}</td>
+                                        <td style="font-weight:bold; color:var(--darkgreen);">${siswa.score}</td>`;
+                        tbody.appendChild(tr);
+                    });
+                } else {
+                    tbody.innerHTML = `<tr><td colspan="4">Belum ada siswa yang mengirimkan jawaban.</td></tr>`;
+                }
+                document.getElementById("guru-section").scrollIntoView({ behavior: 'smooth' });
+            })
+            .catch(err => {
+                document.getElementById("loading").style.display = "none";
+                document.getElementById("guru-section").style.display = "block";
+                document.getElementById("isi-tabel-guru").innerHTML = `<tr><td colspan="4">Gagal memuat data nilai dari server.</td></tr>`;
+            });
         } else if (pass !== null) {
             alert("Password Salah! Akses Ditolak.");
         }
     }
 
+    function tutupMenuGuru() {
+        document.getElementById("guru-section").style.display = "none";
+        if (kuisSudahDikirim) {
+            document.getElementById("leaderboard-section").style.display = "block";
+        } else {
+            document.getElementById("data-diri-section").style.display = "block";
+        }
+    }
+
     function toggleMateri() {
         document.getElementById("leaderboard-section").style.display = "none";
+        document.getElementById("guru-section").style.display = "none";
         if (!statusKuis && !kuisSudahDikirim) {
             document.getElementById("data-diri-section").style.display = "block";
         }
@@ -440,12 +567,12 @@
         }
     }
 
-    // FUNGSI LIHAT SKOR (BISA DIAKSES KAPAN SAJA TANPA HARUS ISI DATA / KIRIM JAWABAN)
     function lihatSkor() {
         document.getElementById("data-diri-section").style.display = "none";
         document.getElementById("materi-pembelajaran").style.display = "none";
         document.getElementById("quiz-section").style.display = "none";
         document.getElementById("leaderboard-section").style.display = "none";
+        document.getElementById("guru-section").style.display = "none";
         document.getElementById("loading").style.display = "block";
 
         fetch(SCRIPT_URL)
@@ -454,7 +581,6 @@
             document.getElementById("loading").style.display = "none";
             document.getElementById("leaderboard-section").style.display = "block";
             
-            // Tampilkan/sembunyikan kotak nilai pribadi dan tombol kembali
             if (kuisSudahDikirim) {
                 document.getElementById("personal-score-area").style.display = "block";
                 document.getElementById("btn-kembali-dari-skor").style.display = "none";
